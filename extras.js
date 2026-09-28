@@ -23,7 +23,7 @@ class Collection{
    owned.push(id);budget-=s.cost;
   }
   if(claimed.includes(29)&&!owned.includes('graduate'))owned.push('graduate');
-  return {claimed,owned,equipped:ids.has(d.equipped)&&owned.includes(d.equipped)?d.equipped:'classic',openingSeen:d.openingSeen===true,music:d.music!==false,sfx:d.sfx!==false,volume:Number.isFinite(d.volume)?clamp(d.volume,0,1):.65};
+  return {claimed,owned,equipped:ids.has(d.equipped)&&owned.includes(d.equipped)?d.equipped:'classic',openingSeen:d.openingSeen===true,openingEdition:Number.isInteger(d.openingEdition)?d.openingEdition:0,music:d.music!==false,sfx:d.sfx!==false,volume:Number.isFinite(d.volume)?clamp(d.volume,0,1):.65};
  }
  read(){try{return this.clean(JSON.parse(this.storage?.getItem(KEY)||'{}'));}catch(_){this.ok=false;return this.clean({});}}
  save(){try{if(!this.storage){this.ok=false;return;}this.storage.setItem(KEY,JSON.stringify(this.data));}catch(_){this.ok=false;}}
@@ -131,47 +131,53 @@ function refreshAudio(){
  api.$('audioState').textContent=sound.error||((sound.ctx&&sound.ctx.state!=='running')?'音を再開するには下のボタンをタップ。':'氷、雪、壁、ジャンプ、釣り、着水で音が変わります。');
  api.$('sound').setAttribute('aria-label','BGMと効果音の設定');api.$('sound').setAttribute('aria-pressed',d.music||d.sfx);api.$('soundIcon').innerHTML=d.music||d.sfx?'<path d="M10 4 5 8H2v8h3l5 4zM15 7a7 7 0 0 1 0 10M19 3a12 12 0 0 1 0 18"/>':'<path d="M10 4 5 8H2v8h3l5 4zM16 9l6 6m0-6-6 6"/>';
 }
-function startMovie(done){movie={age:0,done,lastBeat:-1};sound.unlock();sound.setMode('movie');api.show('openingScreen');drawMovie();}
-function endMovie(){if(!movie)return;const done=movie.done;movie=null;bank.settings({openingSeen:true});api.hide('openingScreen');sound.setMode('home');if(done)done();}
+let storyArt=null,storyPointer=null;
+function startMovie(done){
+ const story=root.SuwariStory;if(!story)return done?.();
+ movie={page:0,done};storyArt=storyArt||story.make(api.art,api.world);
+ sound.unlock();sound.setMode('home');api.show('openingScreen');drawMovie();
+}
+function endMovie(){
+ if(!movie)return;const done=movie.done;movie=null;storyPointer=null;
+ bank.settings({openingSeen:true,openingEdition:root.SuwariStory.EDITION});
+ api.hide('openingScreen');sound.setMode('home');if(done)done();
+}
+function turnPage(delta){
+ if(!movie)return;
+ const story=root.SuwariStory;
+ if(movie.page+delta>=story.COUNT){endMovie();return;}
+ const page=clamp(movie.page+delta,0,story.COUNT-1);
+ if(page===movie.page)return;movie.page=page;sound.effect('tap');drawMovie();
+}
 function drawMovie(){
- if(!movie)return;const c=api.$('openingCanvas'),g=c.getContext('2d'),t=movie.age,R=api.art.rect,E=api.art.pixelEllipse,D=api.art.drawBird,F=api.art.drawFish;
- const scene=Math.min(5,Math.floor(t/3.2)),u=clamp((t-scene*3.2)/3.2,0,1),smooth=v=>v*v*(3-2*v);const still=api.reduced;
- const captions=['師匠「まずは、腹すべりから。」','……本人は、聞いていません。','おさかなの話だけは、聞こえます。','仕方がないので、師匠がつくります。','壁も、川も。ごほうびは、いちばん奥。','さあ、ひと押し。本人は、座ったまま。'];
- api.$('movieCaption').textContent=captions[scene];api.$('movieStep').textContent=`${scene+1} / 6`;
- g.clearRect(0,0,360,320);R(g,0,0,360,320,'#9bc6d1');R(g,17,14,326,294,'#e0f2ef');R(g,17,14,326,7,'#fbfcf4');R(g,17,301,326,7,'#fbfcf4');
- for(let y=40;y<290;y+=48){R(g,31+y%45,y,14,2,'#c7e2de');R(g,275-y%35,y+15,17,2,'#c7e2de');}
- if(scene<3){
-  const y=250;api.world.drawRing(g,235,y,.9);D(g,235,y,scene===2?.45:0,2.1,scene===1||Math.floor(t*2)%5===0,0);
-  if(scene===0){const bx=still?115:50+220*smooth(u);E(g,bx,103,25,11,'#173749');E(g,bx+6,101,16,8,'#fffcef');R(g,bx+20,97,8,4,'#edb660');R(g,bx-27,97,10,5,'#173749');R(g,bx-27,108,8,4,'#173749');R(g,bx-7,94,24,3,'#cf886a');for(let i=0;i<3;i++)R(g,bx-43-i*11,103+i*5,9,2,'#90bcbf');}
-  else api.world.master(g,82,155,1.8);
-  if(scene===1){api.art.label(g,'z',268,191-(still?0:Math.sin(t*2)*3),17,'#799b9c');api.art.label(g,'…',89,76,22,'#597e87');}
-  if(scene===2){const fy=151-(still?0:Math.sin(t*3)*5);F(g,127,fy,1.6);R(g,144,fy-15,2,7,'#efbc6b');R(g,142,fy-13,7,2,'#efbc6b');api.art.label(g,'！',268,183,20,'#c88a6b');}
- }else{
-  const born=(scene-3)*3.2+u*3.2,progress=still?(scene===3?2:5):Math.min(5,Math.floor(born/1.05));
-  api.world.drawRing(g,89,270,.73);D(g,89,268,0,1.5,scene!==5||u<.6,0);
-  const works=[{x:205,y:215,w:90,h:20},{x:35,y:168,w:103,h:20},{x:165,y:106,w:150,h:24},{x:32,y:89,w:297,h:13},{x:165,y:61,w:90,h:17}];
-  for(let j=0;j<Math.min(progress,works.length);j++){const r=works[j];if(j===3){R(g,r.x,r.y,r.w,r.h,'#4c91af');R(g,r.x,r.y+r.h-3,r.w,3,'#b1d8db');}else{R(g,r.x,r.y+3,r.w,r.h,'#80aebd');R(g,r.x,r.y,r.w,r.h-4,'#b6d4d6');R(g,r.x,r.y,r.w,3,'#fffcef');}}
-  let mx=still?235:210+Math.sin(born*1.7)*70,my=246-Math.min(5.6,born)*29;
-  if(scene===5){mx=290;my=232;}
-  api.world.master(g,mx,my,1.2);
-  if(scene===3||scene===4){const swing=still?0:Math.sin(t*18)*5;R(g,mx+20,my-27+swing,3,16,'#a87e57');R(g,mx+15,my-31+swing,13,6,'#678b94');
-   if(!still&&movie.lastBeat!==progress){movie.lastBeat=progress;sound.effect('hammer');}}
-  if(scene>=4&&born>4.4){E(g,267,45,24,8,'#fbf9e9');F(g,267,41,1.4);}
-  if(scene===5){api.art.label(g,'z',115,223-(still?0:Math.sin(t*2)*3),12,'#809f9f');api.art.label(g,'準備したのは、師匠。',225,288,10,'#5a7c82');}
- }
+ if(!movie)return;const story=root.SuwariStory,c=api.$('openingCanvas');
+ storyArt.draw(c.getContext('2d'),movie.page);
+ c.setAttribute('aria-label',story.descriptions[movie.page]);
+ api.$('movieStep').textContent=`${movie.page+1} / ${story.COUNT}`;
+ api.$('previousPage').disabled=movie.page===0;
+ api.$('nextPage').textContent=movie.page===story.COUNT-1?(movie.done?'すべりに行く →':'おしまい'):'つぎ →';
+ api.$('storyDots').replaceChildren();
+ for(let i=0;i<story.COUNT;i++){const dot=document.createElement('span');dot.className=i===movie.page?'active':'';api.$('storyDots').append(dot);}
 }
 function applyChapter(){if(!api||!api.$('chapterTabs'))return;[...api.$('stageGrid').children].forEach((b,i)=>b.hidden=Math.floor(i/10)!==chapter);api.$('chapterTabs').querySelectorAll('button').forEach((b,i)=>{b.setAttribute('aria-pressed',i===chapter);});}
 function boot(a){
  api=a;let storage;try{storage=localStorage;}catch(_){}bank=new Collection(storage,a.records);sound=new Sound(()=>bank.data);
  const master=api.world.master;api.world.master=function(...args){neutral++;try{return master(...args);}finally{neutral--;}};
- const ui=`<section id="openingScreen" class="overlay extra-overlay" hidden role="dialog" aria-modal="true" aria-label="はじめのおはなし"><div class="panel movie-panel"><div class="eyebrow">師匠と、座ったままの弟子</div><canvas id="openingCanvas" width="360" height="320" aria-label="師匠が手づくりの修行場とごほうびを用意する短編"></canvas><p id="movieCaption" aria-live="polite"></p><div class="movie-bottom"><span id="movieStep"></span><button id="skipMovie" class="secondary">スキップして進む →</button></div></div></section>
+ const ui=`<section id="openingScreen" class="overlay extra-overlay" hidden role="dialog" aria-modal="true" aria-label="はじめのおはなし"><div class="panel movie-panel story-panel"><div class="story-top"><div class="eyebrow">はじめのおはなし</div><button id="skipMovie" aria-label="おはなしをスキップ">スキップ ×</button></div><canvas id="openingCanvas" width="360" height="390" tabindex="0" role="button" aria-label="おはなしの絵。タップすると次のページへ"></canvas><div class="story-progress"><div id="storyDots" aria-hidden="true"></div><span id="movieStep" aria-live="polite"></span></div><div class="story-buttons"><button id="previousPage" class="secondary">← もどる</button><button id="nextPage" class="primary">つぎ →</button></div></div></section>
  <section id="closetScreen" class="overlay extra-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="closetTitle"><div class="panel closet-panel"><button class="close" data-extra-close="closetScreen" aria-label="閉じる">×</button><div class="eyebrow">おさかなと、おきがえ</div><h2 id="closetTitle">着替えて、また休む。</h2><div class="fish-balance">おさかな <b data-fish-count>0</b> 匹</div><p>初クリアで3匹。前に集めた分も受け取り済み。<br>どの服も、滑る性能は同じです。</p><div id="skinGrid" class="skin-grid"></div><p id="saveNotice" class="save-note"></p></div></section>
  <section id="audioScreen" class="overlay extra-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="audioTitle"><div class="panel"><button class="close" data-extra-close="audioScreen" aria-label="閉じる">×</button><div class="eyebrow">SOUND SETTINGS</div><h2 id="audioTitle">のんきな音の、修行場。</h2><button id="musicToggle" class="secondary"></button><button id="sfxToggle" class="secondary"></button><label class="volume-label" for="volumeSlider">音量<input id="volumeSlider" type="range" min="0" max="100" step="1"></label><p id="audioState"></p><button id="resumeAudio" class="primary">音を再開・試聴</button></div></section>`;
  api.$('app').insertAdjacentHTML('beforeend',ui);
  const links=document.createElement('div');links.className='title-extras';links.innerHTML='<button id="openCloset">おきがえ · 魚 <span data-fish-count>0</span></button><button id="replayMovie">はじめのおはなし</button><button id="openAudio">音・設定</button>';api.$('selectFromTitle').after(links);
  const row=document.createElement('div');row.className='stage-extras';row.innerHTML='<button id="stageCloset">おきがえ · 魚 <span data-fish-count>0</span></button><button id="returnTitle">タイトルへ</button>';api.$('stageGrid').before(row);const tabs=document.createElement('div');tabs.id='chapterTabs';tabs.className='chapter-tabs';for(let i=0;i<3;i++){const b=document.createElement('button');b.textContent=`${i*10+1}〜${i*10+10}`;b.onclick=()=>{chapter=i;applyChapter();};tabs.append(b);}api.$('stageGrid').before(tabs);applyChapter();
- api.$('start').onclick=()=>{sound.unlock();const go=()=>{const next=a.levels.findIndex((_,i)=>!a.records[i]);api.load(next<0?0:next);};if(!bank.data.openingSeen)startMovie(go);else go();};
+ api.$('start').onclick=()=>{sound.unlock();const go=()=>{const next=a.levels.findIndex((_,i)=>!a.records[i]);api.load(next<0?0:next);};if(bank.data.openingEdition<root.SuwariStory.EDITION)startMovie(go);else go();};
  api.$('openCloset').onclick=showCloset;api.$('stageCloset').onclick=showCloset;api.$('replayMovie').onclick=()=>startMovie(null);api.$('skipMovie').onclick=endMovie;
+ api.$('previousPage').onclick=()=>turnPage(-1);api.$('nextPage').onclick=()=>turnPage(1);
+ const storyCanvas=api.$('openingCanvas');
+ storyCanvas.addEventListener('pointerdown',e=>{if(!movie||storyPointer||e.button>0)return;e.preventDefault();storyPointer={id:e.pointerId,x:e.clientX,y:e.clientY};try{storyCanvas.setPointerCapture(e.pointerId);}catch(_){}});
+ storyCanvas.addEventListener('pointerup',e=>{if(!storyPointer||storyPointer.id!==e.pointerId)return;const q=storyPointer;storyPointer=null;e.preventDefault();const dx=e.clientX-q.x,dy=e.clientY-q.y;if(Math.abs(dy)>50&&Math.abs(dy)>Math.abs(dx))return;turnPage(dx>45?-1:1);});
+ storyCanvas.addEventListener('pointercancel',()=>storyPointer=null);
+ storyCanvas.addEventListener('lostpointercapture',()=>storyPointer=null);
+ storyCanvas.addEventListener('keydown',e=>{if(['ArrowRight','Enter','Space','ArrowLeft'].includes(e.code)){e.preventDefault();turnPage(e.code==='ArrowLeft'?-1:1);}});
  const audioOpen=()=>{sound.unlock();refreshAudio();api.show('audioScreen');};api.$('sound').onclick=audioOpen;api.$('openAudio').onclick=audioOpen;
  api.$('musicToggle').onclick=()=>{bank.settings({music:!bank.data.music});sound.unlock();refreshAudio();};api.$('sfxToggle').onclick=()=>{bank.settings({sfx:!bank.data.sfx});sound.unlock();sound.effect('tap');refreshAudio();};
  api.$('volumeSlider').oninput=e=>{bank.settings({volume:Number(e.target.value)/100});sound.unlock();};api.$('resumeAudio').onclick=()=>{sound.unlock();sound.effect('tap');refreshAudio();};
@@ -183,13 +189,13 @@ function boot(a){
  updateBalance();refreshAudio();
 }
 const apiExport={Collection,SKINS,Sound,boot,sprite,selected,modal,
- frame(dt){if(!api)return;if(movie&&!document.hidden){movie.age+=dt;drawMovie();if(movie.age>=19.2)endMovie();}sound.tick();},
+ frame(dt){if(!api)return;sound.tick();},
  stages:applyChapter,loaded(i){chapter=Math.floor(i/10);lastReward=0;if(sound){sound.surface(0);sound.setMode(i>=20?'late':'course');}},
  cleared(i){if(!bank)return 0;lastReward=bank.award(i);updateBalance();sound.effect('win');return lastReward;},
  result(i,won){if(!api)return;const e=api.$('resultText');if(won){e.textContent=i===29?'最終試験を一投で突破。師匠のお墨付き「免許皆眠」を解放。':`一投で到着。${lastReward?'おさかな +3匹！':'このコースのごほうびは受け取り済み。'}`;if(i===29)api.$('resultTitle').textContent='修行、おしまい。お昼寝です。';}},
  effect(name){sound?.effect(name);},tone(...args){sound?.voice(...args);},unlock(){sound?.unlock();},
  surface(speed,snow,air){sound?.surface(speed,snow,air);},
- state(){return {collection:bank?JSON.parse(JSON.stringify(bank.data)):null,balance:bank?.balance()||0,saving:bank?.ok,movie:movie?{age:movie.age}:null,audio:sound?.state()};},
+ state(){return {collection:bank?JSON.parse(JSON.stringify(bank.data)):null,balance:bank?.balance()||0,saving:bank?.ok,movie:movie?{page:movie.page,count:root.SuwariStory.COUNT}:null,audio:sound?.state()};},
  replay:()=>startMovie(null),closet:showCloset
 };
 if(typeof module!=='undefined'&&module.exports)module.exports=apiExport;else root.SuwariExtras=apiExport;

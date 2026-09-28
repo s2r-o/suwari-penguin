@@ -1,4 +1,4 @@
-/* Suwari Penguin 0.9: the master's handmade training grounds.
+/* Suwari Penguin 0.11: the master's handmade training grounds.
  * No network, packages, analytics or random gameplay. Existing input/ice physics stay in index.html.
  */
 (function(root){
@@ -47,6 +47,23 @@ function catchRig(p){
 }
 function flightFrame(p,reduced=false){
  return !p.failed&&(p.z||0)>1?(reduced?0:Math.floor((p.clock||0)*12)%4):-1;
+}
+// A ramp crosses its river, not the next half of the course. Strong entries
+// flatten the take-off arc instead of becoming a longer, higher invulnerability.
+// The entire arc is chosen ONCE on entry; no mid-air snap or forced landing.
+const LANDING_RUNOUT=70, TAKEOFF_HEIGHT=8;
+function rampLaunch(level,ramp,vx,vy){
+ const forward=-vy*Math.cos(RAMP_ANGLE);
+ if(!(forward>0))return null;
+ const lip=ramp.y+6;
+ const river=(level.gaps||[]).filter(g=>g.y+g.h<lip&&g.x<ramp.x+ramp.w&&g.x+g.w>ramp.x)
+  .sort((a,b)=>(b.y+b.h)-(a.y+a.h))[0];
+ const maxTravel=river?lip-river.y+LANDING_RUNOUT:330;
+ const maxTime=maxTravel/forward;
+ const natural=-vy*Math.sin(RAMP_ANGLE);
+ const limit=Math.max(0,GRAVITY*maxTime/2-TAKEOFF_HEIGHT/maxTime);
+ return {vx,vy:-forward,vz:Math.min(natural,limit),z:TAKEOFF_HEIGHT,maxTravel,
+  farBank:river?river.y:null,limited:natural>limit};
 }
 function init(p){
  if(!Number.isFinite(p.clock))Object.assign(p,{clock:0,z:0,vz:0,failed:null,failureAge:0,caught:null,splash:null,jumps:0,landings:0,bumps:0,events:[],lastRamp:-1,rampCooldown:0,bumpUntil:{}});
@@ -117,8 +134,9 @@ function install(P){
        const atLip=dy>0?ox+(p.x-ox)*(oy-lip)/dy:p.x;
        if(oy>lip&&p.y<=lip&&atLip>=r.x+4&&atLip<=r.x+r.w-4&&p.vy<-40){
         const entrySpeed=Math.hypot(p.vx,p.vy),entryAngle=Math.atan2(p.vx,-p.vy);
-        p.vz=-p.vy*Math.sin(RAMP_ANGLE);p.vy*=Math.cos(RAMP_ANGLE);p.z=1;p.jumps++;p.rampCooldown=.6;p.lastRamp=i;
-        event(p,'jump',{entrySpeed,entryAngle});return true;
+        const jump=rampLaunch(l,r,p.vx,p.vy);
+        p.vx=jump.vx;p.vy=jump.vy;p.vz=jump.vz;p.z=jump.z;p.jumps++;p.rampCooldown=.6;p.lastRamp=i;
+        event(p,'jump',{entrySpeed,entryAngle,maxTravel:jump.maxTravel,limited:jump.limited});return true;
        }return false;
       });
      }
@@ -368,6 +386,6 @@ function paintBird(g,p,phase,t){
  if(p.won)fish(g,p.x+3,p.y-15,1.05);
  if(phase==='ready'&&!p.failed&&p.stopped&&(t%4.8)>2.7)art.label(g,'z',p.x+24,p.y-38-(t%1)*4,10,'#809f9f');
 }
-const api={install,extraLevels,laneAt,hookAt,rodAt,catchRig,flightFrame,waterPose,WATER_RESULT_DELAY,bindArt,terrain,life,paintBird,master,drawRing,GRAVITY,RAMP_ANGLE};
+const api={install,extraLevels,laneAt,hookAt,rodAt,catchRig,flightFrame,waterPose,WATER_RESULT_DELAY,bindArt,terrain,life,paintBird,master,drawRing,GRAVITY,RAMP_ANGLE,rampLaunch,LANDING_RUNOUT,TAKEOFF_HEIGHT};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SuwariWorld=api;
 })(typeof window!=='undefined'?window:globalThis);
