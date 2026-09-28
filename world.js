@@ -1,4 +1,4 @@
-/* Suwari Penguin 0.7: the master's handmade training grounds.
+/* Suwari Penguin 0.8: the master's handmade training grounds.
  * No network, packages, analytics or random gameplay. Existing input/ice physics stay in index.html.
  */
 (function(root){
@@ -49,7 +49,7 @@ function flightFrame(p,reduced=false){
  return !p.failed&&(p.z||0)>1?(reduced?0:Math.floor((p.clock||0)*12)%4):-1;
 }
 function init(p){
- if(!Number.isFinite(p.clock))Object.assign(p,{clock:0,z:0,vz:0,failed:null,failureAge:0,caught:null,jumps:0,landings:0,bumps:0,events:[],lastRamp:-1,rampCooldown:0,bumpUntil:{}});
+ if(!Number.isFinite(p.clock))Object.assign(p,{clock:0,z:0,vz:0,failed:null,failureAge:0,caught:null,splash:null,jumps:0,landings:0,bumps:0,events:[],lastRamp:-1,rampCooldown:0,bumpUntil:{}});
 }
 function event(p,type,more={}){p.events.push({type,x:p.x,y:p.y,...more});if(p.events.length>32)p.events.shift();}
 function fail(p,reason){if(p.failed||p.won)return; p.failed=reason;p.failureAge=0;p.vx=p.vy=p.vz=0;p.stopped=true;event(p,'fail',{reason});}
@@ -62,7 +62,11 @@ function install(P){
  P.launch=(p,vx,vy)=>{init(p);if(p.failed||p.z>0)return false;return baseLaunch(p,vx,vy);};
  function checkHazards(p,l,ox,oy,oldT,held=false){
   if(p.won||p.failed)return;
-  if(p.z<=3 && (l.gaps||[]).some(r=>inside(p,r))){fail(p,'gap');return;}
+  const gap=p.z<=3&&(l.gaps||[]).find(r=>inside(p,r));
+  if(gap){
+   p.splash={x:p.x,y:p.y,angle:p.angle,lift:Math.max(0,p.z||0),gap:{x:gap.x,y:gap.y,w:gap.w,h:gap.h}};
+   fail(p,'gap');return;
+  }
   for(let i=0;i<(l.hooks||[]).length;i++){
    const h=l.hooks[i],a=hookAt(h,oldT),b=hookAt(h,p.clock);
    if(b.active&&Math.abs(p.z-b.z)<27&&segmentDistance(0,0,ox-a.x,oy-a.y,p.x-b.x,p.y-b.y)<21){
@@ -269,11 +273,86 @@ function life(g,l,p,t,minY,maxY){
   if(attached||(h.y>minY-110&&h.y<maxY+140))fisher(g,h,hookAt(h,t),attached);
  });
 }
+// Presentation only. The fall has already failed; this never moves the collider.
+const WATER_RESULT_DELAY=2.15;
+const smooth=v=>{const u=clamp(v,0,1);return u*u*(3-2*u);};
+function waterPose(p,reduced=false){
+ if(p.failed!=='gap')return null;
+ const c=p.splash||{x:p.x,y:p.y,angle:p.angle||0,lift:0},gap=c.gap;
+ const age=reduced?1.3:Math.max(0,p.failureAge||0);
+ const stage=age<.34?'splash':age<.62?'under':age<1.0?'surface':'float';
+ // Nudge the visual bob into the opening so a bank cannot hide the returning face.
+ const tx=gap?clamp(c.x,gap.x+27,gap.x+gap.w-27):c.x;
+ const ty=gap?clamp(c.y,gap.y+35,gap.y+gap.h-18):c.y;
+ const drift=smooth(age/.62),x=c.x+(tx-c.x)*drift,y=c.y+(ty-c.y)*drift;
+ let depth;
+ if(age<.34)depth=-(c.lift||0)+(48+(c.lift||0))*smooth(age/.34);
+ else if(age<.62)depth=48;
+ else if(age<1.0){const u=(age-.62)/.38;depth=48-30*smooth(u)-3*Math.sin(Math.PI*u);}
+ else depth=18+(reduced?0:1.25*Math.sin((age-1)*5));
+ const a=Math.atan2(Math.sin(c.angle||0),Math.cos(c.angle||0));
+ return {age,stage,x,y,bodyY:y+depth,waterY:y+3,angle:a*(1-smooth((age-.28)/.55)),
+  visible:stage!=='under',flap:!reduced&&age<.2?Math.floor(age*15)%4:-1,
+  blink:stage==='float'&&(reduced||(age>1.3&&age<1.55)),gap};
+}
+function waterRipple(g,x,y,rx,ry,opacity){
+ if(opacity<=0)return;
+ g.save();g.globalAlpha*=opacity;
+ for(let yy=-Math.ceil(ry);yy<=Math.ceil(ry);yy++){
+  const f=1-(yy/ry)**2;if(f<0)continue;
+  const xx=Math.sqrt(f)*rx;
+  rect(g,x-xx,y+yy,2,1,'#bddfe2');rect(g,x+xx-1,y+yy,2,1,'#bddfe2');
+ }
+ g.restore();
+}
+function paintWaterFall(g,p){
+ const q=waterPose(p,art.reduced);if(!q)return;
+ const {x,y,age}=q;
+ // Ripples live on the water plane and cannot paint over the snowy banks.
+ g.save();if(q.gap){g.beginPath();g.rect(q.gap.x+2,q.gap.y+8,q.gap.w-4,q.gap.h-15);g.clip();}
+ if(!art.reduced){
+  for(let i=0;i<2;i++){
+   const u=(age-i*.16)/.8;
+   if(u>=0&&u<1)waterRipple(g,x,q.waterY+2,14+32*u,4+8*u,(1-u)*.8);
+  }
+ }
+ if(age>.68){
+  waterRipple(g,x,q.waterY+1,19+(art.reduced?0:Math.sin(age*3)),5,.72);
+  waterRipple(g,x,q.waterY+3,27,7,.25);
+ }
+ g.restore();
+ // Keep the original sitting silhouette and size; occlusion, not shrinking, submerges it.
+ if(q.visible){
+  g.save();g.beginPath();g.rect(x-65,q.waterY-110,130,110);g.clip();
+  art.drawBird(g,x,q.bodyY,q.angle,1.25,q.blink,0,false,q.flap);
+  g.restore();
+ }
+ // A small, lopsided splash. Fixed trajectories keep replay and screenshots reproducible.
+ if(!art.reduced&&age<.58){
+  const u=age/.58;
+  g.save();g.globalAlpha*=1-smooth((u-.65)/.35);
+  for(let i=0;i<7;i++){
+   const dir=i-3,dx=dir*(5+14*u),dy=-Math.sin(Math.PI*u)*(17+(i%3)*7);
+   rect(g,x+dx,q.waterY+dy,3,4,'#c5e7e9');rect(g,x+dx+1,q.waterY+dy-2,2,2,'#f5fbef');
+  }
+  g.restore();
+ }
+ // A beat of silence: only two bubbles before the face returns.
+ if(!art.reduced&&age>.36&&age<.73){
+  for(let i=0;i<2;i++){
+   const u=clamp((age-.37-i*.08)/.22,0,1);
+   if(u>0&&u<1)waterRipple(g,x+(i?7:-5),q.waterY-2-u*8,2+u,2+u,.9*(1-u*.6));
+  }
+ }
+ if(age>.68){
+  rect(g,x-15,q.waterY,11,1,'#badce0');rect(g,x+6,q.waterY+1,10,1,'#d2e8e5');
+ }
+}
 function paintBird(g,p,phase,t){
+ if(p.failed==='gap'){paintWaterFall(g,p);return;}
  const rig=catchRig(p),lift=Math.min(150,p.z||0);
  const pose=rig?rig.body:{x:p.x,y:p.y-lift};
  let s=1.25,dy=0,alpha=1;
- if(p.failed==='gap'){s*=Math.max(.32,1-p.failureAge*1.15);dy=Math.min(26,p.failureAge*38);alpha=Math.max(.15,1-p.failureAge);}
  const height=Math.max(lift,p.y-pose.y);
  if(height>1)ellipse(g,p.x,p.y+2,16/(1+height*.012),5/(1+height*.012),'#34657a38');
  const flap=flightFrame(p,art.reduced);
@@ -286,10 +365,9 @@ function paintBird(g,p,phase,t){
   const yy=pose.y-33+(art.reduced?0:[0,3,6,2][flap]);
   rect(g,pose.x+23,yy,2,3,'#6cabc0');rect(g,pose.x+22,yy+3,4,2,'#a5d4df');
  }
- if(p.failed==='gap'&&p.failureAge>.18){ellipse(g,p.x,p.y+7,21,7,'#8cbbc350');drawRing(g,p.x,p.y+9,.65);}
  if(p.won)fish(g,p.x+3,p.y-15,1.05);
  if(phase==='ready'&&!p.failed&&p.stopped&&(t%4.8)>2.7)art.label(g,'z',p.x+24,p.y-38-(t%1)*4,10,'#809f9f');
 }
-const api={install,extraLevels,laneAt,hookAt,rodAt,catchRig,flightFrame,bindArt,terrain,life,paintBird,master,drawRing,GRAVITY,RAMP_ANGLE};
+const api={install,extraLevels,laneAt,hookAt,rodAt,catchRig,flightFrame,waterPose,WATER_RESULT_DELAY,bindArt,terrain,life,paintBird,master,drawRing,GRAVITY,RAMP_ANGLE};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SuwariWorld=api;
 })(typeof window!=='undefined'?window:globalThis);
