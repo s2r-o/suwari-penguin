@@ -22,7 +22,7 @@ function cross(l,speed,angle=0,x=180,y=l.ramps[0].y+8){
 }
 let samples=0;const thresholds=[];
 for(const l of levels.filter(l=>l.ramps?.length)){
- const r=l.ramps[0];ok(r.w===308);ok(l.shots===2);
+ const r=l.ramps[0];ok(r.w===308);ok(l.shots===1);
  const bare={...l,walls:[],snow:[],hooks:[],lanes:[],goal:field.goal};
  // Intermediate pace no longer clears the river; stronger entry still does.
  ok(!cross(bare,420),l.name+' must require more energy');ok(cross(bare,500),l.name+' adequate entry clears');
