@@ -1,4 +1,4 @@
-/* Suwari Penguin 0.6: the master's handmade training grounds.
+/* Suwari Penguin 0.7: the master's handmade training grounds.
  * No network, packages, analytics or random gameplay. Existing input/ice physics stay in index.html.
  */
 (function(root){
@@ -8,18 +8,18 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const inside=(p,r)=>p.x>=r.x&&p.x<=r.x+r.w&&p.y>=r.y&&p.y<=r.y+r.h;
 const extraLevels=[
  // Broad take-off banks and open landings: approach speed, not a narrow aim test.
- {name:'師匠、橋は？',hint:'幅の広い台へ、勢いを残して。斜めでも飛べます。',height:1520,shots:2,start:{x:110,y:1400},goal:{x:252,y:135},walls:[],snow:[],ramps:[{x:26,y:930,w:308,h:70}],gaps:[{x:26,y:760,w:308,h:145}],lesson:'勢いで川を越える'},
+ {name:'師匠、橋は？',hint:'幅の広い台へ、勢いを残して。斜めでも飛べます。',height:1520,shots:2,start:{x:110,y:1400},goal:{x:252,y:135},walls:[],snow:[],ramps:[{x:26,y:930,w:308,h:70}],gaps:[{x:26,y:705,w:308,h:200}],lesson:'勢いで川を越える'},
  {name:'先輩、お先に。',hint:'先輩が通り過ぎてから、スッ。',height:1550,shots:1,start:{x:180,y:1430},goal:{x:180,y:140},walls:[],snow:[],lanes:[{y:980,speed:370,period:3.8,offset:1.1,dir:1},{y:565,speed:420,period:4.6,offset:2.7,dir:-1}],lesson:'腹すべりの先輩'},
  {name:'おさかな、じゃない。',hint:'針が上がっている間に、通り抜けよう。',height:1530,shots:1,start:{x:105,y:1410},goal:{x:252,y:145},walls:[],snow:[],hooks:[{x:148,y:955,sway:76,period:4.8,offset:.3,side:-1},{x:218,y:535,sway:65,period:5.2,offset:2.4,side:1}],lesson:'釣り人'},
- {name:'雪より、まわり道。',hint:'雪を抜けるか、横から勢いを残すか。',height:2040,shots:2,start:{x:105,y:1920},goal:{x:252,y:140},walls:[],snow:[{x:132,y:1420,w:96,h:170,factor:3.7}],ramps:[{x:26,y:1200,w:308,h:70}],gaps:[{x:26,y:1030,w:308,h:135}],lanes:[{y:740,speed:390,period:4.4,offset:2,dir:1}],lesson:'川までのルート選び'},
+ {name:'雪より、まわり道。',hint:'雪を抜けるか、横から勢いを残すか。',height:2040,shots:2,start:{x:105,y:1920},goal:{x:252,y:140},walls:[],snow:[{x:132,y:1420,w:96,h:170,factor:3.7}],ramps:[{x:26,y:1200,w:308,h:70}],gaps:[{x:26,y:965,w:308,h:200}],lanes:[{y:740,speed:390,period:4.4,offset:2,dir:1}],lesson:'川までのルート選び'},
  {name:'雪で、ひとやすみ。',hint:'雪でひと休み。針の動きを見て、もう一打。',height:2110,shots:2,start:{x:95,y:1990},goal:{x:264,y:145},walls:[{x:26,y:1400,w:173,h:42},{x:215,y:510,w:119,h:42}],snow:[{x:207,y:1050,w:111,h:150,factor:3.7},{x:38,y:600,w:88,h:135,factor:3.7}],hooks:[{x:190,y:815,sway:86,period:5.2,offset:1.4,side:-1}],lesson:'止まる場所も作戦'},
- {name:'師匠の力作。',hint:'川を越えたら、着地した場所からもう一打。',height:2230,shots:2,start:{x:258,y:2110},goal:{x:112,y:140},walls:[{x:26,y:740,w:115,h:42}],snow:[{x:118,y:1760,w:100,h:145,factor:3.7}],ramps:[{x:26,y:1500,w:308,h:70}],gaps:[{x:26,y:1320,w:308,h:150}],lanes:[{y:1020,speed:375,period:4.5,offset:2.2,dir:1}],hooks:[{x:215,y:490,sway:62,period:5.4,offset:1.7,side:1}],lesson:'着地後にも余裕を'},
+ {name:'師匠の力作。',hint:'川を越えたら、着地した場所からもう一打。',height:2230,shots:2,start:{x:258,y:2110},goal:{x:112,y:140},walls:[{x:26,y:740,w:115,h:42}],snow:[{x:118,y:1760,w:100,h:145,factor:3.7}],ramps:[{x:26,y:1500,w:308,h:70}],gaps:[{x:26,y:1260,w:308,h:210}],lanes:[{y:1020,speed:375,period:4.5,offset:2.2,dir:1}],hooks:[{x:215,y:490,sway:62,period:5.4,offset:1.7,side:1}],lesson:'着地後にも余裕を'},
  {name:'近道は、ふかふか。',hint:'雪を横切る近道と、氷をすべるまわり道。',height:1770,shots:2,start:{x:90,y:1650},goal:{x:265,y:140},walls:[{x:26,y:700,w:155,h:42}],snow:[{x:128,y:970,w:115,h:205,factor:3.7},{x:245,y:380,w: 70,h:120,factor:3.7}],lesson:'距離と減速の選択'},
  {name:'先輩、今はだめ。',hint:'雪で止まる場所を決めて、先輩を待とう。',height:1870,shots:2,start:{x:260,y:1750},goal:{x:95,y:140},walls:[{x:225,y:510,w:109,h:42}],snow:[{x:207,y:1040,w:115,h:130,factor:3.7}],lanes:[{y:1330,speed:350,period:4.6,offset:.8,dir:-1},{y:780,speed:410,period:4.3,offset:2.3,dir:1}],lesson:'止まる場所と出発の時刻'},
- {name:'左右、どちらから？',hint:'壁を避けて、川まで勢いを残そう。',height:1900,shots:2,start:{x:180,y:1780},goal:{x:260,y:145},walls:[{x:145,y:1500,w:70,h:55}],snow:[{x:40,y:1350,w:94,h:115,factor:3.7}],ramps:[{x:26,y:1250,w:308,h:70}],gaps:[{x:26,y:1060,w:308,h:160}],lesson:'左右で違う助走'},
+ {name:'左右、どちらから？',hint:'壁を避けて、川まで勢いを残そう。',height:1900,shots:2,start:{x:180,y:1780},goal:{x:260,y:145},walls:[{x:145,y:1500,w:70,h:55}],snow:[{x:40,y:1350,w:94,h:115,factor:3.7}],ramps:[{x:26,y:1250,w:308,h:70}],gaps:[{x:26,y:1000,w:308,h:220}],lesson:'左右で違う助走'},
  {name:'釣られない、昼ごはん。',hint:'左右に余白。針を待つか、よけて進むか。',height:1940,shots:2,start:{x:100,y:1820},goal:{x:263,y:145},walls:[{x:148,y:1110,w:64,h:42}],snow:[{x:240,y:630,w:82,h:140,factor:3.7}],hooks:[{x:155,y:1430,sway:62,period:5.2,offset:.6,side:-1},{x:210,y:835,sway:70,period:5.8,offset:2.8,side:1},{x:125,y:380,sway:46,period:5.4,offset:1.4,side:-1}],lesson:'安全な場所で待つ'},
  {name:'ぶつかるほど、のんびり。',hint:'反射は便利。でも、ぶつかるたびに勢いが減る。',height:2240,shots:2,start:{x:255,y:2120},goal:{x:108,y:140},walls:[{x:198,y:1580,w:136,h:42},{x:26,y:1110,w:140,h:42},{x:210,y:565,w:124,h:42}],snow:[{x:40,y:1640,w:85,h:125,factor:3.7}],lanes:[{y:825,speed:380,period:4.8,offset:1.9,dir:-1}],lesson:'反射の回数を考える'},
- {name:'今日も、魚だけ。',hint:'雪、川、先輩、釣り人。頑張るのは、指のほう。',height:2370,shots:2,start:{x:180,y:2250},goal:{x:248,y:145},walls:[{x:26,y:450,w:90,h:42}],snow:[{x:131,y:1810,w:98,h:145,factor:3.7},{x:240,y:820,w:82,h:105,factor:3.7}],ramps:[{x:26,y:1500,w:308,h:70}],gaps:[{x:26,y:1305,w:308,h:160}],lanes:[{y:1050,speed:390,period:4.6,offset:1.6,dir:1}],hooks:[{x:157,y:635,sway:72,period:5.5,offset:2.1,side:-1}],lesson:'師匠の追加修行・総仕上げ'}
+ {name:'今日も、魚だけ。',hint:'雪、川、先輩、釣り人。頑張るのは、指のほう。',height:2370,shots:2,start:{x:180,y:2250},goal:{x:248,y:145},walls:[{x:26,y:450,w:90,h:42}],snow:[{x:131,y:1810,w:98,h:145,factor:3.7},{x:240,y:820,w:82,h:105,factor:3.7}],ramps:[{x:26,y:1500,w:308,h:70}],gaps:[{x:26,y:1235,w:308,h:230}],lanes:[{y:1050,speed:390,period:4.6,offset:1.6,dir:1}],hooks:[{x:157,y:635,sway:72,period:5.5,offset:2.1,side:-1}],lesson:'師匠の追加修行・総仕上げ'}
 ];
 function laneAt(l,t){
  const u=t+(l.offset||0),cycle=Math.floor(u/l.period),q=((u%l.period)+l.period)%l.period;
@@ -31,8 +31,25 @@ function hookAt(h,t){
  const lift=q<.18?72*(1-q/.18):q<.60?0:q<.80?72*(q-.60)/.20:72;
  return {x:clamp(h.x+Math.sin(u*TAU/h.period)*(h.sway||0),48,312),y:h.y,z:lift,active:lift<12,warning:q<.18};
 }
+// A single shared rig owns the rod tip, hook contact and caught bird pose.
+function rodAt(h){
+ const x=h.side<0?10:350,y=h.y-65;
+ return {x,y,tip:{x:x+(h.side<0?38:-38),y:y-63}};
+}
+const GRIP={x:-2.5,y:-36.25}; // Top of the existing 1.25x seated sprite.
+function catchRig(p){
+ if(p.failed!=='hook'||!p.caught)return null;
+ const c=p.caught,u=clamp(p.failureAge/.95,0,1),ease=u*u*(3-2*u);
+ const targetY=Math.min(c.y,c.tip.y+18-GRIP.y);
+ const x=c.x+(c.tip.x-GRIP.x-c.x)*.22*ease;
+ const y=c.y+(targetY-c.y)*ease;
+ return {hookIndex:c.hookIndex,tip:c.tip,body:{x,y},grip:{x:x+GRIP.x,y:y+GRIP.y},progress:ease};
+}
+function flightFrame(p,reduced=false){
+ return !p.failed&&(p.z||0)>1?(reduced?0:Math.floor((p.clock||0)*12)%4):-1;
+}
 function init(p){
- if(!Number.isFinite(p.clock))Object.assign(p,{clock:0,z:0,vz:0,failed:null,failureAge:0,jumps:0,landings:0,bumps:0,events:[],lastRamp:-1,rampCooldown:0,bumpUntil:{}});
+ if(!Number.isFinite(p.clock))Object.assign(p,{clock:0,z:0,vz:0,failed:null,failureAge:0,caught:null,jumps:0,landings:0,bumps:0,events:[],lastRamp:-1,rampCooldown:0,bumpUntil:{}});
 }
 function event(p,type,more={}){p.events.push({type,x:p.x,y:p.y,...more});if(p.events.length>32)p.events.shift();}
 function fail(p,reason){if(p.failed||p.won)return; p.failed=reason;p.failureAge=0;p.vx=p.vy=p.vz=0;p.stopped=true;event(p,'fail',{reason});}
@@ -46,9 +63,12 @@ function install(P){
  function checkHazards(p,l,ox,oy,oldT,held=false){
   if(p.won||p.failed)return;
   if(p.z<=3 && (l.gaps||[]).some(r=>inside(p,r))){fail(p,'gap');return;}
-  for(const h of l.hooks||[]){
-   const a=hookAt(h,oldT),b=hookAt(h,p.clock);
-   if(b.active&&Math.abs(p.z-b.z)<27&&segmentDistance(0,0,ox-a.x,oy-a.y,p.x-b.x,p.y-b.y)<21){fail(p,'hook');return;}
+  for(let i=0;i<(l.hooks||[]).length;i++){
+   const h=l.hooks[i],a=hookAt(h,oldT),b=hookAt(h,p.clock);
+   if(b.active&&Math.abs(p.z-b.z)<27&&segmentDistance(0,0,ox-a.x,oy-a.y,p.x-b.x,p.y-b.y)<21){
+    p.caught={hookIndex:i,x:p.x,y:p.y-Math.min(150,p.z||0),tip:{...rodAt(h).tip}};
+    fail(p,'hook');return;
+   }
   }
   if(p.z>27)return;
   (l.lanes||[]).forEach((lane,i)=>{
@@ -213,17 +233,27 @@ function belly(g,a){
  rect(g,16,-8,2,2,'#173749');rect(g,22,-5,7,3,'#eab265');rect(g,-23,-1,6,3,'#d29b62');rect(g,-24,3,6,3,'#d29b62');rect(g,-5,-12,12,4,'#3d6578');
  for(let i=0;i<3;i++)rect(g,-32-i*11,4+(i%2)*4,6,1,'#abcac8');g.restore();
 }
-function fisher(g,h,a){
- const x=h.side<0?10:350,y=h.y-65;
+function tether(g,tip,grip,caught=false){
+ // The line ends at the hook eye; the hook point ends at the sprite grip.
+ const eye={x:grip.x+5,y:grip.y-12};
+ g.strokeStyle='#759799';g.lineWidth=1;g.beginPath();g.moveTo(tip.x,tip.y);
+ if(caught)g.quadraticCurveTo((tip.x+eye.x)/2,(tip.y+eye.y)/2+2,eye.x,eye.y);
+ else g.quadraticCurveTo(eye.x,tip.y-7,eye.x,eye.y);
+ g.stroke();
+ ellipse(g,eye.x,eye.y,3,5,'#d8977d');rect(g,eye.x-2,eye.y-1,4,2,'#ffead0');
+ g.strokeStyle='#527180';g.lineWidth=2;g.beginPath();g.moveTo(eye.x,eye.y+2);
+ g.lineTo(eye.x,grip.y-3);g.quadraticCurveTo(eye.x,grip.y+4,grip.x,grip.y);
+ g.lineTo(grip.x,grip.y-2);g.stroke();
+}
+function fisher(g,h,a,attached=false){
+ const rod=rodAt(h),{x,y}=rod;
  rect(g,x-11,y+3,22,6,'#987854');rect(g,x-8,y-4,3,9,'#bd9b70');rect(g,x+6,y-4,3,9,'#bd9b70');
  ellipse(g,x,y-12,9,13,'#76979c');ellipse(g,x,y-28,8,8,'#f1d1aa');rect(g,x-9,y-37,18,7,'#b97e68');rect(g,x-11,y-31,21,4,'#e3a087');rect(g,x+(h.side<0?3:-5),y-28,2,2,'#355467');rect(g,x-8,y+1,18,3,'#416573');
- const tipX=x+(h.side<0?38:-38),tipY=y-63;
- g.strokeStyle='#927650';g.lineWidth=2;g.beginPath();g.moveTo(x,y-17);g.lineTo(tipX,tipY);g.stroke();
- g.strokeStyle='#93adb0';g.lineWidth=1;g.beginPath();g.moveTo(tipX,tipY);g.quadraticCurveTo(a.x,tipY-7,a.x,a.y-a.z-10);g.stroke();
- const hy=a.y-a.z;
+ g.strokeStyle='#927650';g.lineWidth=2;g.beginPath();g.moveTo(x,y-17);g.lineTo(rod.tip.x,rod.tip.y);g.stroke();
+ // A caught hook is painted with the bird, never as another dangling hook.
+ if(attached)return;
  if(a.active||a.warning){g.fillStyle=a.active?'#c7836724':'#bcd1c522';g.beginPath();g.ellipse(a.x,a.y,20,8,0,0,TAU);g.fill();}
- ellipse(g,a.x,hy-11,4,6,'#d8977d');rect(g,a.x-3,hy-10,6,2,'#ffead0');
- g.strokeStyle='#527180';g.lineWidth=2;g.beginPath();g.moveTo(a.x,hy-5);g.lineTo(a.x,hy+5);g.arc(a.x-4,hy+5,4,0,Math.PI);g.lineTo(a.x-8,hy+1);g.stroke();
+ tether(g,rod.tip,{x:a.x,y:a.y-a.z});
 }
 function life(g,l,p,t,minY,maxY){
  for(const lane of l.lanes||[]){
@@ -233,19 +263,33 @@ function life(g,l,p,t,minY,maxY){
   art.label(g,lane.dir>0?'›':'‹',x,lane.y-28,12,a.warning?'#fff1d4':'#937553');
   if(a.active)belly(g,a);
  }
- for(const h of l.hooks||[])if(h.y>minY-110&&h.y<maxY+140)fisher(g,h,hookAt(h,t));
+ const rig=catchRig(p);
+ (l.hooks||[]).forEach((h,i)=>{
+  const attached=rig?.hookIndex===i;
+  if(attached||(h.y>minY-110&&h.y<maxY+140))fisher(g,h,hookAt(h,t),attached);
+ });
 }
 function paintBird(g,p,phase,t){
- const lift=p.failed==='hook'?Math.min(90,p.failureAge*110):Math.min(150,p.z||0);
+ const rig=catchRig(p),lift=Math.min(150,p.z||0);
+ const pose=rig?rig.body:{x:p.x,y:p.y-lift};
  let s=1.25,dy=0,alpha=1;
  if(p.failed==='gap'){s*=Math.max(.32,1-p.failureAge*1.15);dy=Math.min(26,p.failureAge*38);alpha=Math.max(.15,1-p.failureAge);}
- if(lift>1){ellipse(g,p.x,p.y+2,16/(1+lift*.012),5/(1+lift*.012),'#34657a38');}
- g.save();g.globalAlpha=alpha;art.drawBird(g,p.x,p.y-lift+dy,p.angle,s,Math.floor(t*4)%19===0,p.squash,lift<=1&&!p.failed);g.restore();
- if(p.failed==='hook'){g.strokeStyle='#759799';g.lineWidth=1;g.beginPath();g.moveTo(p.x,p.y-lift-26);g.lineTo(p.x+4,p.y-125);g.stroke();}
+ const height=Math.max(lift,p.y-pose.y);
+ if(height>1)ellipse(g,p.x,p.y+2,16/(1+height*.012),5/(1+height*.012),'#34657a38');
+ const flap=flightFrame(p,art.reduced);
+ g.save();g.globalAlpha=alpha;
+ art.drawBird(g,pose.x,pose.y+dy,p.angle,s,flap<0&&Math.floor(t*4)%19===0,p.squash,height<=1&&!p.failed,flap);
+ g.restore();
+ // This is the only captured line, connected to the same rod tip as the fisherman.
+ if(rig)tether(g,rig.tip,rig.grip,true);
+ if(flap>=0){
+  const yy=pose.y-33+(art.reduced?0:[0,3,6,2][flap]);
+  rect(g,pose.x+23,yy,2,3,'#6cabc0');rect(g,pose.x+22,yy+3,4,2,'#a5d4df');
+ }
  if(p.failed==='gap'&&p.failureAge>.18){ellipse(g,p.x,p.y+7,21,7,'#8cbbc350');drawRing(g,p.x,p.y+9,.65);}
  if(p.won)fish(g,p.x+3,p.y-15,1.05);
- if(phase==='ready'&&!p.failed&&p.stopped&&(t%4.8)>2.7){art.label(g,'z',p.x+24,p.y-38-(t%1)*4,10,'#809f9f');}
+ if(phase==='ready'&&!p.failed&&p.stopped&&(t%4.8)>2.7)art.label(g,'z',p.x+24,p.y-38-(t%1)*4,10,'#809f9f');
 }
-const api={install,extraLevels,laneAt,hookAt,bindArt,terrain,life,paintBird,master,drawRing,GRAVITY,RAMP_ANGLE};
+const api={install,extraLevels,laneAt,hookAt,rodAt,catchRig,flightFrame,bindArt,terrain,life,paintBird,master,drawRing,GRAVITY,RAMP_ANGLE};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SuwariWorld=api;
 })(typeof window!=='undefined'?window:globalThis);

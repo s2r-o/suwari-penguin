@@ -20,7 +20,7 @@ footer{z-index:3;flex:none;padding:12px 16px calc(13px + env(safe-area-inset-bot
 <header><button id="homeButton" aria-label="ステージを選ぶ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/></svg></button><div class="course-meta"><div class="eyebrow" id="courseNumber">COURSE 01 / 08</div><h1 id="courseName">はじめての、すーっ。</h1></div><div class="shots"><span>のこり</span><div id="shotValue">1 <small>打</small></div></div></header>
 <section id="playfield" aria-label="ペンギンのコース"><canvas id="game" aria-label="ペンギンを指で動かし、離すと滑ります。背景を払うと先を見渡せます。" tabindex="0"></canvas><div id="status">ペンギンを、スッと送り出そう。</div><button id="backToBird">↓ ペンギンへ戻る</button><div id="power" aria-hidden="true"><div id="powerFill"></div></div></section>
 <footer><div class="controls"><button id="retry" class="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 10a8 8 0 1 1 1 8M4 3v7h7"/></svg>もう一度</button><button id="overview" class="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2zM9 3v16M15 5v16"/></svg><span id="overviewLabel">コース全体</span></button><button id="sound" class="control square" aria-label="音をオンにする" aria-pressed="false"><svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 4 5 8H2v8h3l5 4zM16 9l6 6m0-6-6 6"/></svg></button><button id="help" class="control square" aria-label="遊び方">?</button></div><p id="microHint">ペンギンを指で動かして離す ／ 背景を払って先を見る</p></footer>
-<section id="titleScreen" class="overlay"><div class="title-wrap"><div class="title-kicker">A LITTLE PENGUIN. A LONG SLIDE.</div><h2>すわり<span>ぺん</span></h2><p class="title-caption">修行は、したくありません。<br>お魚だけは、いただきます。</p><canvas id="hero" width="345" height="190" aria-label="座ったまま氷の上を滑るペンギン"></canvas><button id="start" class="primary">ひと滑り、してみる</button><button id="selectFromTitle" class="secondary">コースを選ぶ →</button><div class="version">PLAYABLE PROTOTYPE 0.6<br>20 COURSES · 師匠の手づくり修行場 · 仮タイトル</div></div></section>
+<section id="titleScreen" class="overlay"><div class="title-wrap"><div class="title-kicker">A LITTLE PENGUIN. A LONG SLIDE.</div><h2>すわり<span>ぺん</span></h2><p class="title-caption">修行は、したくありません。<br>お魚だけは、いただきます。</p><canvas id="hero" width="345" height="190" aria-label="座ったまま氷の上を滑るペンギン"></canvas><button id="start" class="primary">ひと滑り、してみる</button><button id="selectFromTitle" class="secondary">コースを選ぶ →</button><div class="version">PLAYABLE PROTOTYPE 0.7<br>20 COURSES · 師匠の手づくり修行場 · 仮タイトル</div></div></section>
 <section id="stageScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="stageTitle"><div class="panel"><button class="close" data-close="stageScreen" aria-label="閉じる">×</button><div class="eyebrow">師匠の手づくり修行場</div><h2 id="stageTitle">今日は、どこまで。</h2><p style="margin-bottom:6px">新しい仕掛けは 09 から。どこからでも遊べます。</p><div class="stage-grid" id="stageGrid"></div><p style="font-size:10px;margin:12px 0 0">魚に触れたらクリア。本人は、今日も座ったまま。</p></div></section>
 <section id="helpScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="panel"><button class="close" data-close="helpScreen" aria-label="閉じる">×</button><div class="eyebrow">HOW TO SLIDE</div><h2 id="helpTitle">指で動かして、離す。</h2><div class="help-step"><b>1</b><p>ペンギンに触れて、そのまま動かす。<br><em>指の動きにペンギンが追従します。</em></p></div><div class="help-step"><b>2</b><p>指を離すと、その勢いで滑る。<br><em>引く動作や、決められた構えは不要です。</em></p></div><div class="help-step"><b>3</b><p>止まるまで、なすがまま。<br><em>壁で反射。次の一打は止まってから。</em></p></div><p style="font-size:11px;margin-bottom:17px">背景を払うと大きくスクロール。<br>右のミニマップから好きな位置へ。<br>規定打数以内に、魚へ触れればクリア。</p><button id="helpDone" class="primary">滑ってみよう</button></div></section>
 <section id="resultScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="resultTitle"><div class="panel"><canvas id="resultBird" width="115" height="100"></canvas><div class="result-chip" id="resultChip">FISH GET!</div><h2 id="resultTitle">座ったまま、到着。</h2><p id="resultText">お魚、いただきます。</p><button id="next" class="primary">次のコースへ →</button><button id="resultRetry" class="secondary">もう一度、滑る</button></div></section>
@@ -158,7 +158,7 @@ const levels=[
 ];
 if(typeof module!=='undefined'&&module.exports)module.exports=levels;else root.PenguinLevels=levels;
 })(typeof window!=='undefined'?window:globalThis);
-</script><script src="world.js?v=060"></script><script>/* Suwari Penguin. Original pixel assets and UI. Single-file browser build. */
+</script><script src="world.js?v=070"></script><script>/* Suwari Penguin. Original pixel assets and UI. Single-file browser build. */
 (function(){
 'use strict';
 const P=window.PenguinPhysics, levels=window.PenguinLevels, $=id=>document.getElementById(id);
@@ -171,19 +171,29 @@ let paused=false,soundOn=false,audio=null,storageOK=true,records={};
 let intro=null,panVelocity=0,snowFx=0;const PAN_GAIN=2.5,PAN_DECAY=4.5;
 try{records=JSON.parse(localStorage.getItem('suwari-penguin-v1')||'{}');if(!records||typeof records!=='object')records={};}catch(_){storageOK=false;}
 const palette={ink:'#173749',sea:'#80b8ca',deep:'#69a4bc',ice:'#e0f2ef',ice2:'#d4eae8',snow:'#fbfcf4',edge:'#b6d9d9',salmon:'#ed967e',gold:'#efbd71'};
-const sprites=[];
+const sprites=[],airSprites=[];
 function off(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return c;}
 function rect(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)));}
 function pixelEllipse(c,cx,cy,rx,ry,color){for(let y=Math.floor(cy-ry);y<=Math.ceil(cy+ry);y++){const f=1-((y+.5-cy)/ry)**2;if(f<=0)continue;const w=rx*Math.sqrt(f);rect(c,cx-w,y,w*2,1,color);}}
-function makeBird(a,blink){
- const c=off(36,38),g=c.getContext('2d'),sn=Math.sin(a),cs=Math.cos(a),face=cs>-.3,back=cs<-.3;
+function makeBird(a,blink,flap=-1){
+ const panic=flap>=0,c=off(panic?48:36,panic?48:38),g=c.getContext('2d'),sn=Math.sin(a),cs=Math.cos(a),face=cs>-.3,back=cs<-.3;
+ if(panic)g.translate(6,5);
  // A wide, grounded sitting silhouette: belly upright, feet out in front.
  pixelEllipse(g,18,26,13,9,'#173749');pixelEllipse(g,18,17,11,13,'#173749');
  pixelEllipse(g,18,24,11,9,'#30566a');pixelEllipse(g,18,15,9,11,'#30566a');
  rect(g,14,3,6,2,'#173749');rect(g,14,2,3,2,'#173749');
  // Side flippers, never a belly-sliding pose.
- pixelEllipse(g,6,26,3,6,'#173749');pixelEllipse(g,30,26,3,6,'#173749');
- rect(g,5,24,2,6,'#41657a');rect(g,29,24,2,6,'#41657a');
+ if(panic){
+  const tips=[[[0,14],[36,17]],[[-1,23],[37,30]],[[2,33],[35,12]],[[-1,28],[37,22]]][flap];
+  for(let side=0;side<2;side++){
+   const sx=side?29:7,ex=tips[side][0],ey=tips[side][1];
+   for(let j=0;j<=7;j++){const u=j/7;pixelEllipse(g,sx+(ex-sx)*u,24+(ey-24)*u,2.8,2.8,'#173749');}
+   for(let j=1;j<=5;j++){const u=j/7;rect(g,sx+(ex-sx)*u,24+(ey-24)*u,2,2,'#41657a');}
+  }
+ }else{
+  pixelEllipse(g,6,26,3,6,'#173749');pixelEllipse(g,30,26,3,6,'#173749');
+  rect(g,5,24,2,6,'#41657a');rect(g,29,24,2,6,'#41657a');
+ }
  if(face){
   const chestW=7+5*Math.max(0,cs),shift=sn*4;
   pixelEllipse(g,18+shift,25,chestW,8,'#e8efe2');
@@ -191,10 +201,10 @@ function makeBird(a,blink){
   // Face mask follows the yaw, while the entire body stays upright.
   pixelEllipse(g,15+shift,15,5.5,6.5,'#fffcef');pixelEllipse(g,21+shift,15,5.5,6.5,'#fffcef');
   if(Math.abs(sn)<.9){
-   rect(g,12+shift,14,2,blink?1:3,'#173749');rect(g,22+shift,14,2,blink?1:3,'#173749');
+   rect(g,12+shift,panic?13:14,panic?3:2,panic?5:blink?1:3,'#173749');rect(g,22+shift,panic?13:14,panic?3:2,panic?5:blink?1:3,'#173749');
    rect(g,10+shift,18,3,1,'#e9afa0');rect(g,24+shift,18,2,1,'#e9afa0');
-  }else rect(g,18+sn*7,14,2,blink?1:3,'#173749');
-  rect(g,16+sn*6,18,5,2,'#edb660');rect(g,17+sn*6,20,3,1,'#cc8a48');
+  }else rect(g,18+sn*7,panic?13:14,panic?3:2,panic?5:blink?1:3,'#173749');
+  rect(g,16+sn*6,18,5,2,'#edb660');rect(g,17+sn*6,20,3,panic?3:1,'#cc8a48');if(panic)rect(g,18+sn*6,20,2,2,'#173749');
  }else{
   pixelEllipse(g,18,22,9,9,'#375e70');rect(g,13,9,4,2,'#416b7c');
   if(Math.abs(sn)>.72){rect(g,18+sn*9,16,2,2,'#142f40');rect(g,18+sn*10,19,3,2,'#e8ad62');}
@@ -202,12 +212,14 @@ function makeBird(a,blink){
  // Two stubby feet point in the facing direction; they do not walk.
  const feetY=back?29:32;
  const fx=sn*4;
- rect(g,9+fx,feetY,8,3,'#a77749');rect(g,9+fx,feetY-1,8,3,'#edb660');
- rect(g,20+fx,feetY,8,3,'#a77749');rect(g,20+fx,feetY-1,8,3,'#edb660');
+ const kicks=panic?[[-4,2],[-1,0],[3,-4],[0,-1]][flap]:[0,0];
+ rect(g,9+fx,feetY+kicks[0],8,3,'#a77749');rect(g,9+fx,feetY-1+kicks[0],8,3,'#edb660');
+ rect(g,20+fx,feetY+kicks[1],8,3,'#a77749');rect(g,20+fx,feetY-1+kicks[1],8,3,'#edb660');
  if(back){pixelEllipse(g,18-sn*4,29,4,3,'#173749');rect(g,16-sn*4,29,4,2,'#406278');}
  return c;
 }
 for(let i=0;i<16;i++)sprites.push([makeBird(i*TAU/16,false),makeBird(i*TAU/16,true)]);
+for(let i=0;i<16;i++)airSprites.push(Array.from({length:4},(_,f)=>makeBird(i*TAU/16,false,f)));
 const fish=off(26,18);{
  const g=fish.getContext('2d');
  rect(g,1,5,3,8,'#365d72');rect(g,4,7,4,4,'#365d72');
@@ -217,12 +229,13 @@ const fish=off(26,18);{
  rect(g,9,9,12,3,'#f9d8b1');rect(g,20,6,2,2,'#fff8e8');rect(g,21,7,2,2,'#173749');
  rect(g,13,7,2,2,'#efc5a8');rect(g,16,8,2,2,'#fff0cf');
 }
-function drawBird(g,x,y,a,size=1,blink=false,squash=0,shadow=true){
+function drawBird(g,x,y,a,size=1,blink=false,squash=0,shadow=true,flap=-1){
  const i=((Math.round(a/TAU*16)%16)+16)%16;
  g.save();g.translate(x,y);
  if(shadow){g.fillStyle='#3f809733';g.beginPath();g.ellipse(0,2,15*size,4.5*size,0,0,TAU);g.fill();}
  g.scale(size*(1+squash),size*(1-squash));g.imageSmoothingEnabled=false;
- g.drawImage(sprites[i][blink?1:0],-18,-32);g.restore();
+ if(flap>=0)g.drawImage(airSprites[i][flap%4],-24,-37);
+ else g.drawImage(sprites[i][blink?1:0],-18,-32);g.restore();
 }
 function drawFish(g,x,y,s=1){g.imageSmoothingEnabled=false;g.drawImage(fish,Math.round(x-13*s),Math.round(y-9*s),26*s,18*s);}
 function resize(){
@@ -377,8 +390,7 @@ function endPointer(e,cancelled=false){
  }
  try{canvas.releasePointerCapture(e.pointerId);}catch(_){}
 }
-canvas.addEventListener('pointerup',e=>endPointer(e),{passive:false});
-canvas.addEventListener('pointercancel',e=>endPointer(e,true),{passive:false});
+canvas.addEventListener('pointerup',e=>endPointer(e),{passive:false});canvas.addEventListener('pointercancel',e=>endPointer(e,true),{passive:false});
 canvas.addEventListener('lostpointercapture',()=>cancelPointer());
 window.addEventListener('blur',()=>{cancelPointer();panVelocity=0;acc=0;});
 document.addEventListener('visibilitychange',()=>{paused=document.hidden;cancelPointer();panVelocity=0;acc=0;last=performance.now();});
@@ -548,6 +560,6 @@ function frame(now){const dt=Math.min((now-last)/1000,.045);last=now;update(dt);
 World.bindArt({off,rect,pixelEllipse,drawBird,drawFish,label,reduced});
 resize();camera=targetCamera();renderStages();refreshHUD();requestAnimationFrame(frame);
 // Local development test hook. It is not a network service and contains no personal data.
-window.Suwari={version:'0.6.0',physics:P,levels,state:()=>({level:levelIndex,phase,shots,bird:{...bird},camera,overview,manual,vw,vh,scale,storageOK,intro:intro?{...intro}:null,panVelocity}),load,shot:takeShot,overview:setOverview,skipIntro:endIntro,closeHelp:()=>hide('helpScreen'),world:World};
+window.Suwari={version:'0.7.0',physics:P,levels,state:()=>({level:levelIndex,phase,shots,bird:{...bird},camera,overview,manual,vw,vh,scale,storageOK,intro:intro?{...intro}:null,panVelocity}),load,shot:takeShot,overview:setOverview,skipIntro:endIntro,closeHelp:()=>hide('helpScreen'),world:World};
 })();
 </script></body></html>
