@@ -13,15 +13,15 @@ header{flex:none;position:relative;z-index:3;height:83px;padding:16px 19px 12px;
 footer{z-index:3;flex:none;padding:12px 16px calc(13px + env(safe-area-inset-bottom));background:var(--paper);border-top:1px solid var(--border)}.controls{display:flex;gap:8px;align-items:center}.control{height:44px;display:flex;align-items:center;justify-content:center;gap:7px;background:#eaf2ee;border:1px solid #cfdfd8;border-radius:4px;padding:0 12px;font-size:11px;white-space:nowrap}.control svg{width:16px;height:16px;flex:none}#retry{flex:1;background:#f9e4d9;border-color:#e8c0ae}#overview{flex:1}.square{width:44px;padding:0;flex:none}#microHint{margin:10px 0 0;text-align:center;font-size:10px;color:var(--muted);letter-spacing:.025em;line-height:1.4}
 .overlay{position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:24px;background:#15364788;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}.overlay[hidden]{display:none!important}.panel{position:relative;width:100%;max-width:360px;padding:29px 25px;background:var(--paper);border:2px solid var(--ink);border-radius:5px;box-shadow:7px 7px 0 #12374845;text-align:center}.panel h2{font-size:22px;letter-spacing:.07em;line-height:1.5;margin:10px 0 8px}.panel p{font-size:12px;line-height:1.9;color:var(--muted);margin:6px 0 20px}.primary,.secondary{width:100%;min-height:49px;border-radius:3px;font-size:13px;font-weight:650;letter-spacing:.07em}.primary{background:var(--ink);color:#f7fcf7;border:1px solid #102b39;box-shadow:0 3px 0 #071f2b}.secondary{margin-top:10px;background:#e7f0eb;border:1px solid #c3d8cf}.close{position:absolute;right:9px;top:9px;width:34px;height:34px;background:transparent;font-size:23px;color:var(--muted)}
 #titleScreen{background:#e5f4ed;padding:20px;overflow-y:auto;backdrop-filter:none;align-items:center}#titleScreen:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.3;background-image:linear-gradient(#fff8 1px,transparent 1px),linear-gradient(90deg,#fff8 1px,transparent 1px);background-size:24px 24px}.title-wrap{width:100%;max-width:345px;position:relative;text-align:center;padding:20px 0}.title-kicker{font:10px var(--mono);letter-spacing:3.5px;color:#638c8b}.title-wrap h2{font-size:43px;letter-spacing:.04em;font-weight:900;margin:14px 0 0;line-height:1.3}.title-wrap h2 span{color:#6a9e9d}.title-caption{font-size:12px;letter-spacing:.05em;line-height:1.85;margin:12px 0 0;color:#567e81}#hero{width:100%;height:190px;image-rendering:pixelated;display:block;margin:5px auto 7px}.title-wrap .primary{max-width:284px;background:#f0957f;color:#173749;border-color:#ce7566;box-shadow:0 4px 0 #cb7969;font-size:15px}.title-wrap .secondary{max-width:284px;background:transparent;border:0;font-size:12px;box-shadow:none;min-height:42px}.version{font:9px var(--mono);letter-spacing:1.4px;color:#739694;margin-top:20px;line-height:1.7}
-#stageScreen .panel{max-width:400px;padding:25px 20px}.stage-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:20px 0 10px}.stage-card{position:relative;min-height:78px;text-align:left;border:1px solid #bed7d1;border-radius:3px;padding:11px;background:#edf5ef}.stage-card b{font:21px var(--mono);color:var(--ink)}.stage-card span{display:block;font-size:9px;line-height:1.5;margin-top:4px;white-space:normal}.stage-card small{position:absolute;right:9px;top:12px;font:9px var(--mono);color:var(--muted)}.stage-card.cleared{border-color:#e1a88c;background:#faeee1}.stage-card.cleared:after{content:'✓';position:absolute;right:10px;bottom:9px;color:#cb8569;font-size:13px}#resultBird{width:115px;height:100px;image-rendering:pixelated;margin:0 auto;display:block}#resultScreen{align-items:flex-end;padding-bottom:calc(30px + env(safe-area-inset-bottom));background:#15364744}.result-chip{font:10px var(--mono);letter-spacing:2px;color:#b16f5c}#resultTitle{margin-top:9px}#resultScreen .panel p{margin-bottom:15px}.help-step{text-align:left;display:flex;align-items:flex-start;gap:12px;margin:17px 0}.help-step b{background:#ddece5;min-width:25px;height:25px;display:grid;place-items:center;font:12px var(--mono);border-radius:3px}.help-step p{margin:0;line-height:1.7;font-size:12px;color:var(--ink)}.help-step em{font-style:normal;color:var(--muted);font-size:10px}.help-gesture{display:block;margin:0 auto;width:120px;height:55px}
+#stageScreen .panel{max-width:400px;padding:25px 20px;max-height:calc(100dvh - 60px);overflow:auto;overscroll-behavior:contain;touch-action:pan-y}.stage-grid{touch-action:pan-y;display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:20px 0 10px}.stage-card{position:relative;min-height:78px;text-align:left;border:1px solid #bed7d1;border-radius:3px;padding:11px;background:#edf5ef}.stage-card b{font:21px var(--mono);color:var(--ink)}.stage-card span{display:block;font-size:9px;line-height:1.5;margin-top:4px;white-space:normal}.stage-card small{position:absolute;right:9px;top:12px;font:9px var(--mono);color:var(--muted)}.stage-card.cleared{border-color:#e1a88c;background:#faeee1}.stage-card.cleared:after{content:'✓';position:absolute;right:10px;bottom:9px;color:#cb8569;font-size:13px}#resultBird{width:115px;height:100px;image-rendering:pixelated;margin:0 auto;display:block}#resultScreen{align-items:flex-end;padding-bottom:calc(30px + env(safe-area-inset-bottom));background:#15364744}.result-chip{font:10px var(--mono);letter-spacing:2px;color:#b16f5c}#resultTitle{margin-top:9px}#resultScreen .panel p{margin-bottom:15px}.help-step{text-align:left;display:flex;align-items:flex-start;gap:12px;margin:17px 0}.help-step b{background:#ddece5;min-width:25px;height:25px;display:grid;place-items:center;font:12px var(--mono);border-radius:3px}.help-step p{margin:0;line-height:1.7;font-size:12px;color:var(--ink)}.help-step em{font-style:normal;color:var(--muted);font-size:10px}.help-gesture{display:block;margin:0 auto;width:120px;height:55px}
 @media(min-width:700px){#app{height:min(940px,100dvh);border-left:1px solid #2b5669;border-right:1px solid #2b5669}body{display:flex;align-items:center}.title-wrap h2{font-size:48px}}@media(max-height:700px){header{height:69px;padding-top:10px;padding-bottom:10px}footer{padding-top:9px;padding-bottom:calc(9px + env(safe-area-inset-bottom))}#microHint{margin-top:7px}.title-wrap h2{font-size:36px}#hero{height:150px}.title-wrap{padding:0}.title-caption{font-size:11px}.version{margin-top:11px}.panel{padding:21px}.help-step{margin:12px 0}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style></head>
 <body><main id="app">
 <header><button id="homeButton" aria-label="ステージを選ぶ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/></svg></button><div class="course-meta"><div class="eyebrow" id="courseNumber">COURSE 01 / 08</div><h1 id="courseName">はじめての、すーっ。</h1></div><div class="shots"><span>のこり</span><div id="shotValue">1 <small>打</small></div></div></header>
 <section id="playfield" aria-label="ペンギンのコース"><canvas id="game" aria-label="ペンギンを指で動かし、離すと滑ります。背景を払うと先を見渡せます。" tabindex="0"></canvas><div id="status">ペンギンを、スッと送り出そう。</div><button id="backToBird">↓ ペンギンへ戻る</button><div id="power" aria-hidden="true"><div id="powerFill"></div></div></section>
 <footer><div class="controls"><button id="retry" class="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 10a8 8 0 1 1 1 8M4 3v7h7"/></svg>もう一度</button><button id="overview" class="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2zM9 3v16M15 5v16"/></svg><span id="overviewLabel">コース全体</span></button><button id="sound" class="control square" aria-label="音をオンにする" aria-pressed="false"><svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 4 5 8H2v8h3l5 4zM16 9l6 6m0-6-6 6"/></svg></button><button id="help" class="control square" aria-label="遊び方">?</button></div><p id="microHint">ペンギンを指で動かして離す ／ 背景を払って先を見る</p></footer>
-<section id="titleScreen" class="overlay"><div class="title-wrap"><div class="title-kicker">A LITTLE PENGUIN. A LONG SLIDE.</div><h2>すわり<span>ぺん</span></h2><p class="title-caption">腹すべりは、できません。<br>座ったまま、なすがまま。</p><canvas id="hero" width="345" height="190" aria-label="座ったまま氷の上を滑るペンギン"></canvas><button id="start" class="primary">ひと滑り、してみる</button><button id="selectFromTitle" class="secondary">コースを選ぶ →</button><div class="version">PLAYABLE PROTOTYPE 0.4<br>8 COURSES · SWIPE ONLY · 仮タイトル</div></div></section>
-<section id="stageScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="stageTitle"><div class="panel"><button class="close" data-close="stageScreen" aria-label="閉じる">×</button><div class="eyebrow">A SMALL ICE TRIP</div><h2 id="stageTitle">今日は、どこまで。</h2><p style="margin-bottom:6px">どのコースからでも遊べます。</p><div class="stage-grid" id="stageGrid"></div><p style="font-size:10px;margin:12px 0 0">魚に触れたらクリア。座ったままで大丈夫。</p></div></section>
+<section id="titleScreen" class="overlay"><div class="title-wrap"><div class="title-kicker">A LITTLE PENGUIN. A LONG SLIDE.</div><h2>すわり<span>ぺん</span></h2><p class="title-caption">修行は、したくありません。<br>お魚だけは、いただきます。</p><canvas id="hero" width="345" height="190" aria-label="座ったまま氷の上を滑るペンギン"></canvas><button id="start" class="primary">ひと滑り、してみる</button><button id="selectFromTitle" class="secondary">コースを選ぶ →</button><div class="version">PLAYABLE PROTOTYPE 0.5<br>14 COURSES · 師匠の手づくり修行場 · 仮タイトル</div></div></section>
+<section id="stageScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="stageTitle"><div class="panel"><button class="close" data-close="stageScreen" aria-label="閉じる">×</button><div class="eyebrow">師匠の手づくり修行場</div><h2 id="stageTitle">今日は、どこまで。</h2><p style="margin-bottom:6px">新しい仕掛けは 09 から。どこからでも遊べます。</p><div class="stage-grid" id="stageGrid"></div><p style="font-size:10px;margin:12px 0 0">魚に触れたらクリア。本人は、今日も座ったまま。</p></div></section>
 <section id="helpScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="panel"><button class="close" data-close="helpScreen" aria-label="閉じる">×</button><div class="eyebrow">HOW TO SLIDE</div><h2 id="helpTitle">指で動かして、離す。</h2><div class="help-step"><b>1</b><p>ペンギンに触れて、そのまま動かす。<br><em>指の動きにペンギンが追従します。</em></p></div><div class="help-step"><b>2</b><p>指を離すと、その勢いで滑る。<br><em>引く動作や、決められた構えは不要です。</em></p></div><div class="help-step"><b>3</b><p>止まるまで、なすがまま。<br><em>壁で反射。次の一打は止まってから。</em></p></div><p style="font-size:11px;margin-bottom:17px">背景を払うと大きくスクロール。<br>右のミニマップから好きな位置へ。<br>規定打数以内に、魚へ触れればクリア。</p><button id="helpDone" class="primary">滑ってみよう</button></div></section>
 <section id="resultScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="resultTitle"><div class="panel"><canvas id="resultBird" width="115" height="100"></canvas><div class="result-chip" id="resultChip">FISH GET!</div><h2 id="resultTitle">座ったまま、到着。</h2><p id="resultText">お魚、いただきます。</p><button id="next" class="primary">次のコースへ →</button><button id="resultRetry" class="secondary">もう一度、滑る</button></div></section>
 </main><script>/* Deterministic ice physics. Fixed step, friction work and normal restitution. */
@@ -139,7 +139,7 @@ footer{z-index:3;flex:none;padding:12px 16px calc(13px + env(safe-area-inset-bot
       for(let j=0;j<2;j++)for(const w of level.walls)rectCollision(p,w);
     }
   }
-  const api={C,clamp,create,launch,step,simulate,gesture,moveHeld};
+  const api={C,clamp,create,launch,step,simulate,gesture,moveHeld,reflect,rectCollision};
   if(typeof module!=='undefined'&&module.exports) module.exports=api;
   else root.PenguinPhysics=api;
 })(typeof window!=='undefined'?window:globalThis);
@@ -158,16 +158,17 @@ const levels=[
 ];
 if(typeof module!=='undefined'&&module.exports)module.exports=levels;else root.PenguinLevels=levels;
 })(typeof window!=='undefined'?window:globalThis);
-</script><script>/* Suwari Penguin. Original pixel assets and UI. Single-file browser build. */
+</script><script src="world.js?v=050"></script><script>/* Suwari Penguin. Original pixel assets and UI. Single-file browser build. */
 (function(){
 'use strict';
 const P=window.PenguinPhysics, levels=window.PenguinLevels, $=id=>document.getElementById(id);
+const World=window.SuwariWorld;World.install(P);levels.push(...World.extraLevels);
 const canvas=$('game'),ctx=canvas.getContext('2d',{alpha:false}), field=$('playfield');
 const clamp=P.clamp, TAU=Math.PI*2, reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let vw=360,vh=620,dpr=1,scale=1,camera=0,overview=false,manual=false,levelIndex=0,level=levels[0],bird=P.create(level),shots=0;
 let phase='ready',pointer=null,particles=[],trail=[],time=0,last=performance.now(),acc=0,resultDelay=-1,toastTimer=0,hitCooldown=0;
 let paused=false,soundOn=false,audio=null,storageOK=true,records={};
-let intro=null,panVelocity=0;const PAN_GAIN=2.5,PAN_DECAY=4.5;
+let intro=null,panVelocity=0,snowFx=0;const PAN_GAIN=2.5,PAN_DECAY=4.5;
 try{records=JSON.parse(localStorage.getItem('suwari-penguin-v1')||'{}');if(!records||typeof records!=='object')records={};}catch(_){storageOK=false;}
 const palette={ink:'#173749',sea:'#80b8ca',deep:'#69a4bc',ice:'#e0f2ef',ice2:'#d4eae8',snow:'#fbfcf4',edge:'#b6d9d9',salmon:'#ed967e',gold:'#efbd71'};
 const sprites=[];
@@ -216,10 +217,10 @@ const fish=off(26,18);{
  rect(g,9,9,12,3,'#f9d8b1');rect(g,20,6,2,2,'#fff8e8');rect(g,21,7,2,2,'#173749');
  rect(g,13,7,2,2,'#efc5a8');rect(g,16,8,2,2,'#fff0cf');
 }
-function drawBird(g,x,y,a,size=1,blink=false,squash=0){
+function drawBird(g,x,y,a,size=1,blink=false,squash=0,shadow=true){
  const i=((Math.round(a/TAU*16)%16)+16)%16;
  g.save();g.translate(x,y);
- g.fillStyle='#3f809733';g.beginPath();g.ellipse(0,2,15*size,4.5*size,0,0,TAU);g.fill();
+ if(shadow){g.fillStyle='#3f809733';g.beginPath();g.ellipse(0,2,15*size,4.5*size,0,0,TAU);g.fill();}
  g.scale(size*(1+squash),size*(1-squash));g.imageSmoothingEnabled=false;
  g.drawImage(sprites[i][blink?1:0],-18,-32);g.restore();
 }
@@ -240,8 +241,8 @@ function startIntro(){
  camera=from;setStatus('おさかなは、ここ。タップでスキップ');
 }
 function cancelPointer(){
- if(pointer?.mode==='shot'){bird.x=pointer.birdStart.x;bird.y=pointer.birdStart.y;bird.vx=bird.vy=0;bird.stopped=true;phase='ready';}
- pointer=null;$('power').style.display='none';
+ if(pointer?.mode==='shot'&&!bird.failed){bird.x=pointer.birdStart.x;bird.y=pointer.birdStart.y;bird.vx=bird.vy=0;bird.stopped=true;phase='ready';}
+ pointer=null;bird.held=false;$('power').style.display='none';
 }
 function overlayOpen(){return !$('titleScreen').hidden||!$('stageScreen').hidden||!$('helpScreen').hidden;}
 function setStatus(text,duration=0){$('status').textContent=text;$('status').classList.remove('hidden');toastTimer=duration;}
@@ -262,7 +263,7 @@ function renderStages(){
  $('stageGrid').replaceChildren();
  levels.forEach((l,i)=>{const b=document.createElement('button');b.className='stage-card'+(records[i]?' cleared':'');
  const number=document.createElement('b');number.textContent=String(i+1).padStart(2,'0');
- const name=document.createElement('span');name.textContent=l.name;const label=document.createElement('small');label.textContent=l.shots+' SWIPE'+(l.shots>1?'S':'');
+ const name=document.createElement('span');name.textContent=l.name;const label=document.createElement('small');label.textContent=(i>=8?'NEW · ':'')+l.shots+'打';if(i>=8)b.setAttribute('aria-label',`${i+1} ${l.name} ${l.lesson}`);
  b.append(number,name,label);b.addEventListener('click',()=>load(i));$('stageGrid').append(b);
  });
 }
@@ -280,19 +281,19 @@ function takeShot(vx,vy){
  $('overviewLabel').textContent='コース全体';$('backToBird').style.display='none';setStatus('あとは、なすがまま。',1.6);tone(450,.1,'sine',.04,740);return true;
 }
 function finish(won){
- phase=won?'won':'lost';resultDelay=won?.7:.45;
+ phase=won?'won':'lost';bird.held=false;resultDelay=won?.7:bird.failed?1.05:.45;
  if(won){
   const old=records[levelIndex];records[levelIndex]=old?Math.min(old,shots):shots;
   try{localStorage.setItem('suwari-penguin-v1',JSON.stringify(records));}catch(_){storageOK=false;}
   for(let i=0;i<32;i++){const a=Math.random()*TAU,s=30+Math.random()*120;particles.push({x:bird.x,y:bird.y-10,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:.6+Math.random()*.8,max:1.4,size:2+Math.random()*3,color:['#ed967e','#efbd71','#f9fff0','#7aadae'][i%4]});}
   tone(650,.18,'triangle',.06);setTimeout(()=>tone(850,.22,'triangle',.05),130);setTimeout(()=>tone(1080,.25,'triangle',.04),240);
   setStatus('お魚、いただきます。');
- }else setStatus('あと、ひと滑り。');
+ }else setStatus(bird.failed==='hook'?'釣れたのは、ペンギン。':bird.failed==='gap'?'師匠、浮き輪をお願いします。':'あと、ひと滑り。');
 }
 function showResult(){
  const won=phase==='won';$('resultChip').textContent=won?'FISH GET!':'ONE MORE SLIDE';
- $('resultTitle').textContent=won?'座ったまま、到着。':'もう少し、だった。';
- $('resultText').textContent=won?`${shots}打でクリア。${shots<level.shots?'予定より、ひと足早く。':'お魚、いただきます。'}`:'角度か、勢いか。次は、少しだけ変えてみよう。';
+ $('resultTitle').textContent=won?'お魚だけは、いただく。':bird.failed==='hook'?'おさかな、じゃないです。':bird.failed==='gap'?'橋が、ありませんでした。':'もう少し、だった。';
+ $('resultText').textContent=won?`${shots}打でクリア。${shots<level.shots?'予定より、ひと足早く。':'お魚、いただきます。'}`:bird.failed==='hook'?'針が上がるのを待つか、横をすり抜けよう。':bird.failed==='gap'?'ジャンプ台へ、もう少し勢いをつけて。':'角度か、勢いか。次は、少しだけ変えてみよう。';
  $('next').textContent=won?(levelIndex===levels.length-1?'コースを選ぶ →':'次のコースへ →'):'もう一度、滑る';
  $('resultRetry').textContent=won?'もう一度、滑る':'コースを見直す';
  drawResultBird(won);show('resultScreen');renderStages();
@@ -313,7 +314,7 @@ function remember(list,v){
 function heldMove(q,v){
  P.moveHeld(bird,level,(v.x-q.start.x)/q.scale+q.birdStart.x,(v.y-q.start.y)/q.scale+q.birdStart.y);
  q.moved=Math.max(q.moved,Math.hypot(bird.x-q.birdStart.x,bird.y-q.birdStart.y));
- remember(q.samples,{x:bird.x,y:bird.y,t:v.t});
+ remember(q.samples,{x:bird.x,y:bird.y,t:v.t});processWorldEvents();
 }
 function mapToCamera(v){return clampCamera((v.y-65)/120*level.height-vh/scale/2);}
 canvas.addEventListener('pointerdown',e=>{
@@ -330,7 +331,7 @@ canvas.addEventListener('pointerdown',e=>{
  pointer={id:e.pointerId,mode,start:v,last:v,samples:[v],startCamera:camera,scale,birdStart:{x:bird.x,y:bird.y},moved:0};
  try{canvas.setPointerCapture(e.pointerId);}catch(_){}
  if(mode==='shot'){
-   phase='held';manual=false;bird.vx=bird.vy=0;bird.spin=0;
+   phase='held';bird.held=true;manual=false;bird.vx=bird.vy=0;bird.spin=0;
    pointer.samples=[{x:bird.x,y:bird.y,t:v.t}];
    $('status').classList.add('hidden');
  }
@@ -341,7 +342,7 @@ canvas.addEventListener('pointermove',e=>{
  let events=[];try{events=e.getCoalescedEvents?.()||[];}catch(_){}
  if(!events.length)events=[e];
  for(const item of events){
-   const v=pointerPos(item),q=pointer;q.last=v;
+   if(!pointer)break;const v=pointerPos(item),q=pointer;q.last=v;
    if(q.mode==='shot'){heldMove(q,v);continue;}
    remember(q.samples,v);
    if(q.mode==='pan'&&Math.abs(v.y-q.start.y)>3){
@@ -355,7 +356,7 @@ function endPointer(e,cancelled=false){
  if(cancelled){cancelPointer();panVelocity=0;setStatus(level.hint,3);return;}
  const q=pointer,v=pointerPos(e);
  if(q.mode==='shot'){
-   heldMove(q,v);pointer=null;phase='ready';
+   heldMove(q,v);if(!pointer)return;pointer=null;bird.held=false;phase='ready';
    // A moved-and-placed bird still uses one shot. A simple tap does not.
    if(q.moved>2){
      const result=P.gesture(q.samples);
@@ -438,30 +439,14 @@ function drawWorld(g){
   rect(g,20-off,y+2,3,20,'#d9eae5');rect(g,339+off,y+5,3,17,'#9fc7d2');
  }
  rect(g,22,20,316,6,'#f8fcf4');rect(g,22,level.height-26,316,6,'#f8fcf4');
- // Snow zones deliberately contrast with slippery pale blue ice.
- for(const z of level.snow||[]){
-  if(z.y>maxY||z.y+z.h<minY)continue;
-  rect(g,z.x+4,z.y,z.w-8,z.h,'#fcfcf1');rect(g,z.x,z.y+5,z.w,z.h-10,'#fcfcf1');
-  for(let yy=z.y+10;yy<z.y+z.h-4;yy+=16)for(let xx=z.x+8;xx<z.x+z.w-3;xx+=17){rect(g,xx+(yy%3),yy,3,2,'#dce6d9');}
-  label(g,'SNOW',z.x+z.w/2,z.y+z.h/2+3,8,'#9bb4ac');
- }
- // Faint marker at the start, not a checkpoint or extra rule.
- g.strokeStyle='#99bdbb';g.lineWidth=1;g.setLineDash([3,4]);g.beginPath();g.ellipse(level.start.x,level.start.y,29,10,0,0,TAU);g.stroke();g.setLineDash([]);
- label(g,'START',level.start.x,level.start.y+33,8,'#8eabaa');
+ World.terrain(g,level,bird,bird.clock||0,minY,maxY);
  for(const w of level.walls){if(w.y<=maxY&&w.y+w.h>=minY)block(g,w);}
- // Fish is a contact goal, not a hole or a mandatory stopping point.
- if(!bird.won){
-  const gy=level.goal.y;g.fillStyle='#f3cc9c33';g.beginPath();g.arc(level.goal.x,gy,29,0,TAU);g.fill();
-  g.strokeStyle='#d0ab86';g.setLineDash([2,5]);g.lineWidth=1;g.beginPath();g.arc(level.goal.x,gy,27,0,TAU);g.stroke();g.setLineDash([]);
-  drawFish(g,level.goal.x,gy+Math.sin(time*2.4)*2,1.55);
-  label(g,'おさかな',level.goal.x,gy-33,9,'#a37d66');
- }
+ World.life(g,level,bird,bird.clock||0,minY,maxY);
  for(const t of trail){g.globalAlpha=t.life*.21;rect(g,t.x-1,t.y,2,2,'#7caaa9');}g.globalAlpha=1;
  for(const t of particles){g.globalAlpha=clamp(t.life/t.max,0,1);rect(g,t.x,t.y,t.size,t.size,t.color);}g.globalAlpha=1;
  let px=bird.x,py=bird.y;
  const blink=Math.floor(time*4)%19===0;
- drawBird(g,px,py,bird.angle,1.25,blink,bird.squash);
- if(bird.won)drawFish(g,px+3,py-15,1.05);
+ World.paintBird(g,bird,phase,bird.clock||0);
  // Readable touch target marker in the first course only.
  if(phase==='ready'&&shots===0&&levelIndex===0&&!pointer&&!overview){
   g.globalAlpha=.55+.25*Math.sin(time*3);label(g,'ここを、スッ。',bird.x,bird.y+52,10,'#638f92');g.globalAlpha=1;
@@ -472,6 +457,10 @@ function drawMinimap(g){
  const x=vw-22,y=65,h=120,w=12,s=h/level.height;
  g.fillStyle='#f8fcf3ce';g.fillRect(x-5,y-9,w+10,h+18);g.fillStyle='#aecfce';g.fillRect(x,y,w,h);
  for(const z of level.walls){g.fillStyle='#729ba3';g.fillRect(x+(z.x-26)/308*w,y+z.y*s,z.w/308*w,Math.max(1.5,z.h*s));}
+ for(const z of level.gaps||[]){g.fillStyle='#416b83';g.fillRect(x,y+z.y*s,w,Math.max(3,z.h*s));}
+ for(const z of level.ramps||[]){g.fillStyle='#d9ab72';g.fillRect(x+(z.x-26)/308*w,y+z.y*s,Math.max(3,z.w/308*w),3);}
+ for(const l of level.lanes||[]){const a=World.laneAt(l,bird.clock||0);if(a.active){g.fillStyle='#264b60';g.fillRect(x+clamp((a.x-26)/308,0,1)*w-1,y+a.y*s-1,3,2);}}
+ for(const h of level.hooks||[]){const a=World.hookAt(h,bird.clock||0);g.fillStyle=a.active?'#c57861':'#c9c9b5';g.fillRect(x+(a.x-26)/308*w-1,y+a.y*s-1,2,3);}
  g.fillStyle='#e69c81';g.fillRect(x+w/2-2,y+level.goal.y*s-2,4,3);
  g.strokeStyle='#547d88';g.lineWidth=1;g.strokeRect(x-1,y+camera*s,w+2,Math.min(h,vh/scale*s));
  g.fillStyle='#234756';g.fillRect(x+(bird.x-26)/308*w-2,y+bird.y*s-2,4,4);
@@ -496,8 +485,25 @@ function renderHero(){
  for(let i=0;i<4;i++)rect(g,x-62-i*13,base-3-i%2,6,2,'#c0dcd5');
  drawBird(g,x,base,angle,3.5,Math.floor(time*4)%17===0,0);
  drawFish(g,w-49,base-9,1.9);
+ World.master(g,56,base-1,1.5);
  // Tiny hovering snow pixels provide scale without covering the character.
  rect(g,51,52,3,3,'#a3c7c3');rect(g,55,48,2,2,'#a3c7c3');rect(g,w-48,28,3,3,'#b9d6c8');
+}
+function processWorldEvents(){
+ const events=bird.events?.splice(0)||[];
+ for(const e of events){
+  if(e.type==='jump'){tone(440,.15,'sine',.025,780);setStatus('座ったまま、空へ。',1.2);}
+  if(e.type==='land'){tone(150,.08,'triangle',.02,95);for(let i=0;i<10;i++)particles.push({x:bird.x,y:bird.y,vx:(Math.random()-.5)*90,vy:(Math.random()-.5)*35,life:.32,max:.32,size:2,color:'#fffcef'});}
+  if(e.type==='bump'){
+   if(pointer?.mode==='shot'){pointer=null;bird.held=false;shots++;refreshHUD();}
+   if(phase==='ready'||phase==='held'){phase='sliding';manual=false;}
+   hit({x:bird.x,y:bird.y,nx:0,ny:-1,impact:250});setStatus('先輩、ちょっと待って。',1.3);
+  }
+ }
+ if(bird.failed&&phase!=='lost'){
+  if(pointer?.mode==='shot'){if(pointer.moved>2)shots++;pointer=null;refreshHUD();}
+  bird.held=false;finish(false);tone(180,.24,'sine',.025,100);
+ }
 }
 function update(dt){
  time+=dt;hitCooldown=Math.max(0,hitCooldown-dt);
@@ -510,22 +516,26 @@ function update(dt){
    if(intro.t>.5)setStatus('コースを見渡しています。タップでスキップ');
    if(t>=1)endIntro();acc=0;return;
  }
- if(phase==='held')acc=0;
- else{
-   acc+=dt;
-   while(acc>=P.C.step){
-     const before=bird.stopped;P.step(bird,level,P.C.step,hit);acc-=P.C.step;
-     if(phase==='sliding'){
-       if(bird.won){finish(true);break;}
-       if(bird.stopped&&!before){
-         if(shots>=level.shots)finish(false);else{phase='ready';setStatus('次の一打。先を見てから、スッ。');}
-         break;
-       }
+ acc+=dt;
+ while(acc>=P.C.step){
+   const before=bird.stopped;bird.held=pointer?.mode==='shot';P.step(bird,level,P.C.step,hit);acc-=P.C.step;
+   processWorldEvents();
+   if(phase==='lost')continue;
+   if(phase==='ready'&&!bird.stopped){phase='sliding';manual=false;}
+   if(phase==='sliding'){
+     if(bird.won){finish(true);break;}
+     if(bird.stopped&&!before){
+       if(shots>=level.shots)finish(false);else{phase='ready';setStatus('次の一打。先を見てから、スッ。');}
+       break;
      }
    }
  }
- if(phase==='sliding'&&Math.hypot(bird.vx,bird.vy)>100&&Math.random()>.4)trail.push({x:bird.x+(Math.random()-.5)*14,y:bird.y+2,life:1});
- for(const t of particles){t.x+=t.vx*dt;t.y+=t.vy*dt;t.vx*=Math.exp(-dt*1.5);t.vy*=Math.exp(-dt*1.5);t.life-=dt;}particles=particles.filter(t=>t.life>0);
+ if(phase==='sliding'&&bird.z<1&&(level.snow||[]).some(z=>bird.x>z.x&&bird.x<z.x+z.w&&bird.y>z.y&&bird.y<z.y+z.h)){
+   snowFx+=dt;
+   if(snowFx>.045){snowFx=0;for(let i=0;i<3;i++)particles.push({x:bird.x+(Math.random()-.5)*18,y:bird.y+1,vx:-bird.vx*.06+(Math.random()-.5)*30,vy:-bird.vy*.04,life:.35,max:.35,size:2+Math.random()*2,color:'#ffffef'});}
+ }
+ if(phase==='sliding'&&bird.z<1&&Math.hypot(bird.vx,bird.vy)>100&&Math.random()>.4)trail.push({x:bird.x+(Math.random()-.5)*14,y:bird.y+2,life:1});
+ for(const t of particles){t.x+=t.vx*dt;t.y+=t.vy*dt;t.vx*=Math.exp(-dt*1.5);t.vy*=Math.exp(-dt*1.5);t.life-=dt;}particles=particles.filter(t=>t.life>0).slice(-100);
  for(const t of trail)t.life-=dt*.7;trail=trail.filter(t=>t.life>0);
  if(manual&&!overview&&!pointer&&Math.abs(panVelocity)>.5){
    const decay=Math.exp(-PAN_DECAY*dt),next=camera+panVelocity*(1-decay)/PAN_DECAY;
@@ -535,8 +545,9 @@ function update(dt){
 }
 
 function frame(now){const dt=Math.min((now-last)/1000,.045);last=now;update(dt);render();renderHero();requestAnimationFrame(frame);}
+World.bindArt({off,rect,pixelEllipse,drawBird,drawFish,label,reduced});
 resize();camera=targetCamera();renderStages();refreshHUD();requestAnimationFrame(frame);
 // Local development test hook. It is not a network service and contains no personal data.
-window.Suwari={version:'0.4.0',physics:P,levels,state:()=>({level:levelIndex,phase,shots,bird:{...bird},camera,overview,manual,vw,vh,scale,storageOK,intro:intro?{...intro}:null,panVelocity}),load,shot:takeShot,overview:setOverview,skipIntro:endIntro,closeHelp:()=>hide('helpScreen')};
+window.Suwari={version:'0.5.0',physics:P,levels,state:()=>({level:levelIndex,phase,shots,bird:{...bird},camera,overview,manual,vw,vh,scale,storageOK,intro:intro?{...intro}:null,panVelocity}),load,shot:takeShot,overview:setOverview,skipIntro:endIntro,closeHelp:()=>hide('helpScreen'),world:World};
 })();
 </script></body></html>
