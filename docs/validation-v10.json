@@ -1,0 +1,25 @@
+{
+  "version": "0.10.0",
+  "source_base": "c13b4a40db5aa0bf840698467687cfdb8c7a4a5f",
+  "local_node_status": "PASS",
+  "prior_physics_assertions": 540,
+  "prior_water_assertions": 336,
+  "new_assertions": 150,
+  "one_throw_routes": 30,
+  "final_neighbourhood_successes": 27,
+  "browser_status": "PASS",
+  "browser_checks": 191,
+  "browser": "Chromium",
+  "touch_viewport": "390x844",
+  "browser_method": "Local source inlined into DOM. Explicit in-memory Storage used for persistence readback tests. Real Web Audio processing tested for nonzero samples, scheduling, independent controls and mute.",
+  "iphone_device_tested": false,
+  "safari_tested": false,
+  "errors": [],
+  "tested_source_git_blobs": {
+    "index.html": "fa7af7d2801a2fcb61fd5ac8a811bd83ed80f081",
+    "world.js": "e636223a8fd6d141feb894e107a486766fb02803",
+    "extras.js": "a9c22447860233875ff2ed1538a6784667446504",
+    "extras.css": "0129ec973a987d85f6a52c607f6ec0b786625391",
+    "courses.js": "3e26bd9beaeed6d856f78545c691b8d00171eb08"
+  }
+}
