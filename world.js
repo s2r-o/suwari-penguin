@@ -1,4 +1,4 @@
-/* Suwari Penguin 0.11: the master's handmade training grounds.
+/* Suwari Penguin 0.12: the master's handmade training grounds.
  * No network, packages, analytics or random gameplay. Existing input/ice physics stay in index.html.
  */
 (function(root){
@@ -48,25 +48,36 @@ function catchRig(p){
 function flightFrame(p,reduced=false){
  return !p.failed&&(p.z||0)>1?(reduced?0:Math.floor((p.clock||0)*12)%4):-1;
 }
-// A ramp crosses its river, not the next half of the course. Strong entries
-// flatten the take-off arc instead of becoming a longer, higher invulnerability.
-// The entire arc is chosen ONCE on entry; no mid-air snap or forced landing.
-const LANDING_RUNOUT=70, TAKEOFF_HEIGHT=8;
+// Restore the natural 26-degree launch. Speed earns airtime; skipping hazards is allowed.
+// The outer bank can only be vaulted at a very high altitude, not by normal jumps.
+const TAKEOFF_HEIGHT=8, OUTER_BANK_HEIGHT=300;
 function rampLaunch(level,ramp,vx,vy){
- const forward=-vy*Math.cos(RAMP_ANGLE);
- if(!(forward>0))return null;
- const lip=ramp.y+6;
- const river=(level.gaps||[]).filter(g=>g.y+g.h<lip&&g.x<ramp.x+ramp.w&&g.x+g.w>ramp.x)
-  .sort((a,b)=>(b.y+b.h)-(a.y+a.h))[0];
- const maxTravel=river?lip-river.y+LANDING_RUNOUT:330;
- const maxTime=maxTravel/forward;
- const natural=-vy*Math.sin(RAMP_ANGLE);
- const limit=Math.max(0,GRAVITY*maxTime/2-TAKEOFF_HEIGHT/maxTime);
- return {vx,vy:-forward,vz:Math.min(natural,limit),z:TAKEOFF_HEIGHT,maxTravel,
-  farBank:river?river.y:null,limited:natural>limit};
+ if(!(vy<0)||!Number.isFinite(vx)||!Number.isFinite(vy))return null;
+ return {vx,vy:vy*Math.cos(RAMP_ANGLE),vz:-vy*Math.sin(RAMP_ANGLE),z:TAKEOFF_HEIGHT};
+}
+function flyoutPose(p,reduced=false){
+ if(p.failed!=='out'||!p.flyout)return null;
+ const f=p.flyout,t=reduced?0:Math.min(.8,Math.max(0,p.failureAge));
+ return {x:f.x+f.vx*t,y:f.y+f.vy*t-Math.min(150,Math.max(0,f.z+f.vz*t-.5*GRAVITY*t*t)),
+  angle:f.angle,alpha:reduced?1:clamp(1-t/.8,0,1)};
+}
+function airBounds(p,l,P,onHit){
+ // A missed aim at ordinary height still bounces as before. Speed alone never fails.
+ const high=p.z>OUTER_BANK_HEIGHT;
+ const left=P.C.left,right=P.C.right,top=26,bottom=l.height-26,r=P.C.radius;
+ if(high&&(p.x<left||p.x>right||p.y<top||p.y>bottom)){
+  const edge=p.x<left?'left':p.x>right?'right':p.y<top?'top':'bottom';
+  p.flyout={x:p.x,y:p.y,z:p.z,vx:p.vx,vy:p.vy,vz:p.vz,angle:p.angle,edge};
+  fail(p,'out');return;
+ }
+ if(high)return;
+ if(p.x<left+r){p.x=left+r;P.reflect(p,1,0,onHit);}
+ if(p.x>right-r){p.x=right-r;P.reflect(p,-1,0,onHit);}
+ if(p.y<top+r){p.y=top+r;P.reflect(p,0,1,onHit);}
+ if(p.y>bottom-r){p.y=bottom-r;P.reflect(p,0,-1,onHit);}
 }
 function init(p){
- if(!Number.isFinite(p.clock))Object.assign(p,{clock:0,z:0,vz:0,failed:null,failureAge:0,caught:null,splash:null,jumps:0,landings:0,bumps:0,events:[],lastRamp:-1,rampCooldown:0,bumpUntil:{}});
+ if(!Number.isFinite(p.clock))Object.assign(p,{clock:0,z:0,vz:0,failed:null,failureAge:0,caught:null,splash:null,flyout:null,jumps:0,landings:0,bumps:0,events:[],lastRamp:-1,rampCooldown:0,bumpUntil:{}});
 }
 function event(p,type,more={}){p.events.push({type,x:p.x,y:p.y,...more});if(p.events.length>32)p.events.shift();}
 function fail(p,reason){if(p.failed||p.won)return; p.failed=reason;p.failureAge=0;p.vx=p.vy=p.vz=0;p.stopped=true;event(p,'fail',{reason});}
@@ -118,10 +129,7 @@ function install(P){
     if(p.z>0){
      p.x+=p.vx*h;p.y+=p.vy*h;p.z+=p.vz*h-.5*GRAVITY*h*h;p.vz-=GRAVITY*h;
      p.angle+=p.spin*h;p.spin*=Math.exp(-1.25*h);p.squash*=Math.exp(-12*h);
-     if(p.x<P.C.left+P.C.radius){p.x=P.C.left+P.C.radius;P.reflect(p,1,0,onHit);}
-     if(p.x>P.C.right-P.C.radius){p.x=P.C.right-P.C.radius;P.reflect(p,-1,0,onHit);}
-     if(p.y<26+P.C.radius){p.y=26+P.C.radius;P.reflect(p,0,1,onHit);}
-     if(p.y>l.height-26-P.C.radius){p.y=l.height-26-P.C.radius;P.reflect(p,0,-1,onHit);}
+     airBounds(p,l,P,onHit);if(p.failed)break;
      if(p.z<28)for(const w of l.walls)P.rectCollision(p,w,onHit);
      if(p.z<=0){p.z=0;p.vz=0;p.landings++;p.squash=.12;event(p,'land');}
      if(p.z<18&&segmentDistance(l.goal.x,l.goal.y,ox,oy,p.x,p.y)<=P.C.radius+(l.goal.r||15)){p.won=true;p.stopped=true;p.vx=p.vy=0;}
@@ -136,7 +144,7 @@ function install(P){
         const entrySpeed=Math.hypot(p.vx,p.vy),entryAngle=Math.atan2(p.vx,-p.vy);
         const jump=rampLaunch(l,r,p.vx,p.vy);
         p.vx=jump.vx;p.vy=jump.vy;p.vz=jump.vz;p.z=jump.z;p.jumps++;p.rampCooldown=.6;p.lastRamp=i;
-        event(p,'jump',{entrySpeed,entryAngle,maxTravel:jump.maxTravel,limited:jump.limited});return true;
+        event(p,'jump',{entrySpeed,entryAngle});return true;
        }return false;
       });
      }
@@ -367,6 +375,12 @@ function paintWaterFall(g,p){
  }
 }
 function paintBird(g,p,phase,t){
+ const gone=flyoutPose(p,art.reduced);
+ if(gone){
+  g.save();g.globalAlpha=gone.alpha;
+  art.drawBird(g,gone.x,gone.y,gone.angle,1.25,false,0,false,art.reduced?0:Math.floor(p.failureAge*12)%4);
+  g.restore();return;
+ }
  if(p.failed==='gap'){paintWaterFall(g,p);return;}
  const rig=catchRig(p),lift=Math.min(150,p.z||0);
  const pose=rig?rig.body:{x:p.x,y:p.y-lift};
@@ -386,6 +400,6 @@ function paintBird(g,p,phase,t){
  if(p.won)fish(g,p.x+3,p.y-15,1.05);
  if(phase==='ready'&&!p.failed&&p.stopped&&(t%4.8)>2.7)art.label(g,'z',p.x+24,p.y-38-(t%1)*4,10,'#809f9f');
 }
-const api={install,extraLevels,laneAt,hookAt,rodAt,catchRig,flightFrame,waterPose,WATER_RESULT_DELAY,bindArt,terrain,life,paintBird,master,drawRing,GRAVITY,RAMP_ANGLE,rampLaunch,LANDING_RUNOUT,TAKEOFF_HEIGHT};
+const api={install,extraLevels,laneAt,hookAt,rodAt,catchRig,flightFrame,waterPose,WATER_RESULT_DELAY,bindArt,terrain,life,paintBird,master,drawRing,GRAVITY,RAMP_ANGLE,rampLaunch,TAKEOFF_HEIGHT,OUTER_BANK_HEIGHT,flyoutPose};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SuwariWorld=api;
 })(typeof window!=='undefined'?window:globalThis);

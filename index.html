@@ -15,12 +15,12 @@ footer{z-index:3;flex:none;padding:12px 16px calc(13px + env(safe-area-inset-bot
 #titleScreen{background:#e5f4ed;padding:20px;overflow-y:auto;backdrop-filter:none;align-items:center}#titleScreen:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.3;background-image:linear-gradient(#fff8 1px,transparent 1px),linear-gradient(90deg,#fff8 1px,transparent 1px);background-size:24px 24px}.title-wrap{width:100%;max-width:345px;position:relative;text-align:center;padding:20px 0}.title-kicker{font:10px var(--mono);letter-spacing:3.5px;color:#638c8b}.title-wrap h2{font-size:43px;letter-spacing:.04em;font-weight:900;margin:14px 0 0;line-height:1.3}.title-wrap h2 span{color:#6a9e9d}.title-caption{font-size:12px;letter-spacing:.05em;line-height:1.85;margin:12px 0 0;color:#567e81}#hero{width:100%;height:190px;image-rendering:pixelated;display:block;margin:5px auto 7px}.title-wrap .primary{max-width:284px;background:#f0957f;color:#173749;border-color:#ce7566;box-shadow:0 4px 0 #cb7969;font-size:15px}.title-wrap .secondary{max-width:284px;background:transparent;border:0;font-size:12px;box-shadow:none;min-height:42px}.version{font:9px var(--mono);letter-spacing:1.4px;color:#739694;margin-top:20px;line-height:1.7}
 #stageScreen .panel{max-width:400px;padding:25px 20px;max-height:calc(100dvh - 60px);overflow:auto;overscroll-behavior:contain;touch-action:pan-y}.stage-grid{touch-action:pan-y;display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:20px 0 10px}.stage-card{position:relative;min-height:78px;text-align:left;border:1px solid #bed7d1;border-radius:3px;padding:11px;background:#edf5ef}.stage-card b{font:21px var(--mono);color:var(--ink)}.stage-card span{display:block;font-size:9px;line-height:1.5;margin-top:4px;white-space:normal}.stage-card small{position:absolute;right:9px;top:12px;font:9px var(--mono);color:var(--muted)}.stage-card.cleared{border-color:#e1a88c;background:#faeee1}.stage-card.cleared:after{content:'✓';position:absolute;right:10px;bottom:9px;color:#cb8569;font-size:13px}#resultBird{width:115px;height:100px;image-rendering:pixelated;margin:0 auto;display:block}#resultScreen{align-items:flex-end;padding-bottom:calc(30px + env(safe-area-inset-bottom));background:#15364744}.result-chip{font:10px var(--mono);letter-spacing:2px;color:#b16f5c}#resultTitle{margin-top:9px}#resultScreen .panel p{margin-bottom:15px}.help-step{text-align:left;display:flex;align-items:flex-start;gap:12px;margin:17px 0}.help-step b{background:#ddece5;min-width:25px;height:25px;display:grid;place-items:center;font:12px var(--mono);border-radius:3px}.help-step p{margin:0;line-height:1.7;font-size:12px;color:var(--ink)}.help-step em{font-style:normal;color:var(--muted);font-size:10px}.help-gesture{display:block;margin:0 auto;width:120px;height:55px}
 @media(min-width:700px){#app{height:min(940px,100dvh);border-left:1px solid #2b5669;border-right:1px solid #2b5669}body{display:flex;align-items:center}.title-wrap h2{font-size:48px}}@media(max-height:700px){header{height:69px;padding-top:10px;padding-bottom:10px}footer{padding-top:9px;padding-bottom:calc(9px + env(safe-area-inset-bottom))}#microHint{margin-top:7px}.title-wrap h2{font-size:36px}#hero{height:150px}.title-wrap{padding:0}.title-caption{font-size:11px}.version{margin-top:11px}.panel{padding:21px}.help-step{margin:12px 0}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-</style><link rel="stylesheet" href="extras.css?v=110"></head>
+</style><link rel="stylesheet" href="extras.css?v=120"></head>
 <body><main id="app">
-<header><button id="homeButton" aria-label="ステージを選ぶ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/></svg></button><div class="course-meta"><div class="eyebrow" id="courseNumber">COURSE 01 / 20</div><h1 id="courseName">はじめての、すーっ。</h1></div><div class="shots"><span>のこり</span><div id="shotValue">1 <small>打</small></div></div></header>
+<header><button id="homeButton" aria-label="ステージを選ぶ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/></svg></button><div class="course-meta"><div class="eyebrow" id="courseNumber">COURSE 01 / 30</div><h1 id="courseName">はじめての、すーっ。</h1></div><div class="shots"><span>のこり</span><div id="shotValue">1 <small>打</small></div></div></header>
 <section id="playfield" aria-label="ペンギンのコース"><canvas id="game" aria-label="ペンギンを指で動かし、離すと滑ります。背景を払うと先を見渡せます。" tabindex="0"></canvas><div id="status">ペンギンを、スッと送り出そう。</div><button id="backToBird">↓ ペンギンへ戻る</button><div id="power" aria-hidden="true"><div id="powerFill"></div></div></section>
 <footer><div class="controls"><button id="retry" class="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 10a8 8 0 1 1 1 8M4 3v7h7"/></svg>もう一度</button><button id="overview" class="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2zM9 3v16M15 5v16"/></svg><span id="overviewLabel">コース全体</span></button><button id="sound" class="control square" aria-label="音をオンにする" aria-pressed="false"><svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 4 5 8H2v8h3l5 4zM16 9l6 6m0-6-6 6"/></svg></button><button id="help" class="control square" aria-label="遊び方">?</button></div><p id="microHint">ペンギンを指で動かして離す ／ 背景を払って先を見る</p></footer>
-<section id="titleScreen" class="overlay"><div class="title-wrap"><div class="title-kicker">A LITTLE PENGUIN. A LONG SLIDE.</div><h2>すわり<span>ぺん</span></h2><p class="title-caption">修行は、したくありません。<br>お魚だけは、いただきます。</p><canvas id="hero" width="345" height="190" aria-label="座ったまま氷の上を滑るペンギン"></canvas><button id="start" class="primary">ひと滑り、してみる</button><button id="selectFromTitle" class="secondary">コースを選ぶ →</button><div class="version">PLAYABLE PROTOTYPE 0.11<br>30 COURSES · 一投勝負 · 師匠の手づくり修行場 · 仮タイトル</div></div></section>
+<section id="titleScreen" class="overlay"><div class="title-wrap"><div class="title-kicker">A LITTLE PENGUIN. A LONG SLIDE.</div><h2>すわり<span>ぺん</span></h2><p class="title-caption">修行は、したくありません。<br>お魚だけは、いただきます。</p><canvas id="hero" width="345" height="190" aria-label="座ったまま氷の上を滑るペンギン"></canvas><button id="start" class="primary">ひと滑り、してみる</button><button id="selectFromTitle" class="secondary">コースを選ぶ →</button><div class="version">PLAYABLE PROTOTYPE 0.12<br>30 COURSES · 一投勝負 · 師匠の手づくり修行場 · 仮タイトル</div></div></section>
 <section id="stageScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="stageTitle"><div class="panel"><button class="close" data-close="stageScreen" aria-label="閉じる">×</button><div class="eyebrow">師匠の手づくり修行場</div><h2 id="stageTitle">今日は、どこまで。</h2><p style="margin-bottom:6px">新しい仕掛けは 09 から。どこからでも遊べます。</p><div class="stage-grid" id="stageGrid"></div><p style="font-size:10px;margin:12px 0 0">一投で魚に触れたらクリア。本人は、今日も座ったまま。</p></div></section>
 <section id="helpScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="panel"><button class="close" data-close="helpScreen" aria-label="閉じる">×</button><div class="eyebrow">HOW TO SLIDE</div><h2 id="helpTitle">指で動かして、離す。</h2><div class="help-step"><b>1</b><p>ペンギンに触れて、そのまま動かす。<br><em>指の動きにペンギンが追従します。</em></p></div><div class="help-step"><b>2</b><p>指を離すと、その勢いで滑る。<br><em>引く動作や、決められた構えは不要です。</em></p></div><div class="help-step"><b>3</b><p>止まるまで、なすがまま。<br><em>壁で反射。一投でお魚へ。途中で止まったら、やり直し。</em></p></div><p style="font-size:11px;margin-bottom:17px">背景を払うと大きくスクロール。<br>右のミニマップから好きな位置へ。<br>一度のスワイプで、魚へ触れればクリア。</p><button id="helpDone" class="primary">滑ってみよう</button></div></section>
 <section id="resultScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="resultTitle"><div class="panel"><canvas id="resultBird" width="115" height="100"></canvas><div class="result-chip" id="resultChip">FISH GET!</div><h2 id="resultTitle">座ったまま、到着。</h2><p id="resultText">お魚、いただきます。</p><button id="next" class="primary">次のコースへ →</button><button id="resultRetry" class="secondary">もう一度、滑る</button></div></section>
@@ -147,7 +147,7 @@ footer{z-index:3;flex:none;padding:12px 16px calc(13px + env(safe-area-inset-bot
 (function(root){
 'use strict';
 const levels=[
- {name:'はじめての、すーっ。',hint:'ペンギンを指で動かして、離そう。',height:1280,shots:1,start:{x:180,y:1160},goal:{x:180,y:125},walls:[],snow:[]},
+ {name:'はじめての、すーっ。',hint:'つかんで、スッ。',height:1280,shots:1,start:{x:180,y:1160},goal:{x:180,y:125},walls:[],snow:[]},
  {name:'まっすぐ、とは限らない。',hint:'氷壁のすき間を、ななめに抜けよう。',height:1460,shots:1,start:{x:88,y:1340},goal:{x:268,y:130},walls:[{x:26,y:840,w:173,h:42},{x:216,y:455,w:118,h:42}],snow:[]},
  {name:'ひと休みは、あとで。',hint:'壁のすき間をつないで、一投でお魚へ。',height:1940,shots:1,start:{x:100,y:1820},goal:{x:270,y:135},walls:[{x:26,y:1160,w:204,h:42},{x:160,y:760,w:174,h:42}],snow:[]},
  {name:'くるくる、まわり道。',hint:'跳ね返る向きと、残る勢いを読もう。',height:1820,shots:1,start:{x:275,y:1700},goal:{x:82,y:125},walls:[{x:145,y:1160,w:189,h:44},{x:26,y:650,w:186,h:44}],snow:[]},
@@ -158,7 +158,7 @@ const levels=[
 ];
 if(typeof module!=='undefined'&&module.exports)module.exports=levels;else root.PenguinLevels=levels;
 })(typeof window!=='undefined'?window:globalThis);
-</script><script src="world.js?v=110"></script><script src="courses.js?v=110"></script><script src="story.js?v=110"></script><script src="extras.js?v=110"></script><script>/* Suwari Penguin. Original pixel assets and UI. Single-file browser build. */
+</script><script src="world.js?v=120"></script><script src="courses.js?v=120"></script><script src="story.js?v=120"></script><script src="extras.js?v=120"></script><script>/* Suwari Penguin. Original pixel assets and UI. Single-file browser build. */
 (function(){
 'use strict';
 const P=window.PenguinPhysics, levels=window.PenguinLevels, $=id=>document.getElementById(id);
@@ -171,7 +171,7 @@ let vw=360,vh=620,dpr=1,scale=1,camera=0,overview=false,manual=false,levelIndex=
 let drawingPlayer=false;
 let phase='ready',pointer=null,particles=[],trail=[],time=0,last=performance.now(),acc=0,resultDelay=-1,toastTimer=0,hitCooldown=0;
 let paused=false,storageOK=true,records={};
-let intro=null,panVelocity=0,snowFx=0;const PAN_GAIN=2.5,PAN_DECAY=4.5;
+let intro=null,panVelocity=0,snowFx=0,lessonTime=0;const PAN_GAIN=2.5,PAN_DECAY=4.5;
 try{records=JSON.parse(localStorage.getItem('suwari-penguin-v1')||'{}');if(!records||typeof records!=='object')records={};}catch(_){storageOK=false;}
 const palette={ink:'#173749',sea:'#80b8ca',deep:'#69a4bc',ice:'#e0f2ef',ice2:'#d4eae8',snow:'#fbfcf4',edge:'#b6d9d9',salmon:'#ed967e',gold:'#efbd71'};
 const sprites=[],airSprites=[];
@@ -248,13 +248,13 @@ function resize(){
 new ResizeObserver(resize).observe(field);window.addEventListener('resize',resize);
 function clampCamera(y){return clamp(y,0,Math.max(0,level.height-vh/scale));}
 function targetCamera(){return clampCamera(bird.y-vh/scale*.7);}
-function endIntro(){intro=null;camera=targetCamera();manual=false;panVelocity=0;setStatus(level.hint,3);}
+function endIntro(){intro=null;camera=targetCamera();manual=false;panVelocity=0;lessonTime=0;setStatus(level.hint,levelIndex===0?0:3);}
 function startIntro(){
  panVelocity=0;
  if(reduced){endIntro();return;}
  const from=clampCamera(level.goal.y-vh/scale*.32),to=targetCamera();
  intro={t:0,from,to,duration:clamp(Math.abs(to-from)/650,1.4,3.0)};
- camera=from;setStatus('おさかなは、ここ。タップでスキップ');
+ camera=from;setStatus(levelIndex===0?'おさかなへ。':'おさかなは、ここ。タップでスキップ');
 }
 function cancelPointer(){
  if(pointer?.mode==='shot'&&!bird.failed){bird.x=pointer.birdStart.x;bird.y=pointer.birdStart.y;bird.vx=bird.vy=0;bird.stopped=true;phase='ready';}
@@ -274,7 +274,8 @@ function load(i,withIntro=true){
  intro=null;panVelocity=0;cancelPointer();levelIndex=clamp(i,0,levels.length-1);level=levels[levelIndex];bird=P.create(level);shots=0;phase='ready';manual=false;overview=false;pointer=null;trail=[];particles=[];resultDelay=-1;acc=0;
  $('power').style.display='none';$('overviewLabel').textContent='コース全体';$('backToBird').style.display='none';
  hide('titleScreen');hide('stageScreen');hide('resultScreen');hide('helpScreen');
- camera=targetCamera();refreshHUD();setStatus(level.hint);renderStages();if(withIntro)startIntro();
+ lessonTime=0;camera=targetCamera();refreshHUD();setStatus(level.hint);renderStages();if(withIntro)startIntro();
+ $('microHint').textContent=levelIndex===0?'おさかなに触れたらクリア':'ペンギンを指で動かして離す ／ 背景を払って先を見る';
 }
 function renderStages(){
  $('stageGrid').replaceChildren();
@@ -295,7 +296,7 @@ function takeShot(vx,vy){
  if(intro||phase!=='ready'||!bird.stopped||shots>=SHOT_LIMIT)return false;
  if(!P.launch(bird,vx,vy))return false;
  shots++;phase='sliding';manual=false;overview=false;panVelocity=0;resultDelay=-1;trail=[];refreshHUD();
- $('overviewLabel').textContent='コース全体';$('backToBird').style.display='none';setStatus('あとは、なすがまま。',1.6);Extra.effect('slide');return true;
+ $('overviewLabel').textContent='コース全体';$('backToBird').style.display='none';setStatus(levelIndex===0?'おさかなへ。':'あとは、なすがまま。',levelIndex===0?2.5:1.6);Extra.effect('slide');return true;
 }
 function finish(won){
  phase=won?'won':'lost';bird.held=false;resultDelay=won?.7:bird.failed==='gap'?(reduced?1.05:World.WATER_RESULT_DELAY):bird.failed?1.05:.45;
@@ -305,12 +306,12 @@ function finish(won){
   for(let i=0;i<32;i++){const a=Math.random()*TAU,s=30+Math.random()*120;particles.push({x:bird.x,y:bird.y-10,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:.6+Math.random()*.8,max:1.4,size:2+Math.random()*3,color:['#ed967e','#efbd71','#f9fff0','#7aadae'][i%4]});}
   Extra.cleared(levelIndex);
   setStatus('お魚、いただきます。');
- }else setStatus(bird.failed==='hook'?'釣れたのは、ペンギン。':bird.failed==='gap'?'……浮くのは、できます。':'今回は、ここまで。');
+ }else setStatus(bird.failed==='hook'?'釣れたのは、ペンギン。':bird.failed==='gap'?'……浮くのは、できます。':bird.failed==='out'?'師匠、飛びすぎました。':'今回は、ここまで。');
 }
 function showResult(){
  const won=phase==='won';$('resultChip').textContent=won?'FISH GET!':'ONE MORE SLIDE';
- $('resultTitle').textContent=won?'お魚だけは、いただく。':bird.failed==='hook'?'おさかな、じゃないです。':bird.failed==='gap'?'浮くほうが、楽でした。':'もう少し、だった。';
- $('resultText').textContent=won?'一投で到着。お魚、いただきます。':bird.failed==='hook'?'針が上がるのを待つか、横をすり抜けよう。':bird.failed==='gap'?'川の手前まで、勢いを残そう。雪と壁で減速します。':'角度か、勢いか。次は、少しだけ変えてみよう。';
+ $('resultTitle').textContent=won?'お魚だけは、いただく。':bird.failed==='hook'?'おさかな、じゃないです。':bird.failed==='gap'?'浮くほうが、楽でした。':bird.failed==='out'?'お魚を、通りすぎました。':'もう少し、だった。';
+ $('resultText').textContent=won?'一投で到着。お魚、いただきます。':bird.failed==='hook'?'針が上がるのを待つか、横をすり抜けよう。':bird.failed==='gap'?'川の手前まで、勢いを残そう。雪と壁で減速します。':bird.failed==='out'?'高く飛びすぎて、場外へ。少しやさしく送り出そう。':'角度か、勢いか。次は、少しだけ変えてみよう。';
  $('next').textContent=won?(levelIndex===levels.length-1?'コースを選ぶ →':'次のコースへ →'):'もう一度、滑る';
  $('resultRetry').textContent=won?'もう一度、滑る':'コースを見直す';
  drawResultBird(won);show('resultScreen');renderStages();Extra.result(levelIndex,won);
@@ -350,7 +351,7 @@ canvas.addEventListener('pointerdown',e=>{
  if(mode==='shot'){
    phase='held';bird.held=true;manual=false;bird.vx=bird.vy=0;bird.spin=0;
    pointer.samples=[{x:bird.x,y:bird.y,t:v.t}];
-   $('status').classList.add('hidden');
+   if(levelIndex===0)setStatus('はなすと、すべる。');else $('status').classList.add('hidden');
  }
  if(mode==='minimap'){manual=true;camera=mapToCamera(v);$('backToBird').style.display='block';}
 },{passive:false});
@@ -467,10 +468,7 @@ function drawWorld(g){
  let px=bird.x,py=bird.y;
  const blink=Math.floor(time*4)%19===0;
  drawingPlayer=true;try{World.paintBird(g,bird,phase,bird.clock||0);}finally{drawingPlayer=false;}
- // Readable touch target marker in the first course only.
- if(phase==='ready'&&shots===0&&levelIndex===0&&!pointer&&!overview){
-  g.globalAlpha=.55+.25*Math.sin(time*3);label(g,'ここを、スッ。',bird.x,bird.y+52,10,'#638f92');g.globalAlpha=1;
- }
+
 }
 function drawMinimap(g){
  if(overview)return;
@@ -485,13 +483,31 @@ function drawMinimap(g){
  g.strokeStyle='#547d88';g.lineWidth=1;g.strokeRect(x-1,y+camera*s,w+2,Math.min(h,vh/scale*s));
  g.fillStyle='#234756';g.fillRect(x+(bird.x-26)/308*w-2,y+bird.y*s-2,4,4);
 }
+// Course 1-1 only: a non-interactive hand demonstration, never an aiming line.
+// Rendering cannot move the live penguin or consume the one allowed throw.
+function drawFirstLesson(g){
+ if(levelIndex!==0||intro||manual||overview||pointer||phase!=='ready'||shots||overlayOpen()||!$('resultScreen').hidden)return;
+ const cycle=lessonTime%3.6,swipe=reduced?0:clamp((cycle-.85)/.75,0,1);
+ const dy=-76*swipe*swipe*(3-2*swipe);
+ const opacity=reduced?.78:cycle<.3?cycle/.3:cycle>2.15?Math.max(0,1-(cycle-2.15)/.5):1;
+ const sx=bird.x*scale,sy=(bird.y-camera-12)*scale;
+ g.save();g.translate(sx+3,sy+dy);g.globalAlpha=opacity*.84;
+ g.fillStyle='#fffcef';g.strokeStyle='#547a86';g.lineWidth=2;g.lineJoin='round';
+ // Rounded fingertip, palm and thumb. The tip starts on the actual touch target.
+ g.beginPath();g.moveTo(-5,19);g.lineTo(-5,0);g.bezierCurveTo(-5,-8,5,-8,5,0);
+ g.lineTo(5,13);g.bezierCurveTo(9,8,14,12,14,15);
+ g.bezierCurveTo(19,11,23,16,23,20);g.bezierCurveTo(28,17,32,22,31,27);
+ g.lineTo(28,39);g.lineTo(8,39);g.lineTo(-4,28);
+ g.bezierCurveTo(-17,18,-10,11,-5,19);g.closePath();g.fill();g.stroke();
+ g.restore();
+}
 function render(){
  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle=palette.sea;ctx.fillRect(0,0,vw,vh);
  // Calm water outside the ice; it is scenery, not an invisible hazard.
  for(let y=-24;y<vh+24;y+=36){const yy=y+Math.sin(time*.6+y)*2;
   ctx.fillStyle='#abd4dc55';ctx.fillRect(0,yy,13,2);ctx.fillRect(vw-13,yy+13,15,2);
  }
- const m=metrics();ctx.save();ctx.translate(m.ox,m.oy);ctx.scale(m.s,m.s);drawWorld(ctx);ctx.restore();drawMinimap(ctx);
+ const m=metrics();ctx.save();ctx.translate(m.ox,m.oy);ctx.scale(m.s,m.s);drawWorld(ctx);ctx.restore();drawMinimap(ctx);drawFirstLesson(ctx);
  if(overview){label(ctx,'一投で、この先のお魚へ。',vw/2,vh-8,10,'#315b69');}
 }
 function renderHero(){
@@ -533,9 +549,10 @@ function update(dt){
  if(intro){
    intro.t+=dt;const t=clamp((intro.t-.5)/intro.duration,0,1),ease=t*t*(3-2*t);
    camera=intro.from+(intro.to-intro.from)*ease;
-   if(intro.t>.5)setStatus('コースを見渡しています。タップでスキップ');
+   if(intro.t>.5&&levelIndex!==0)setStatus('コースを見渡しています。タップでスキップ');
    if(t>=1)endIntro();acc=0;return;
  }
+ if(levelIndex===0&&phase==='ready'&&!manual&&!overview&&!pointer)lessonTime+=dt;
  acc+=dt;
  while(acc>=P.C.step){
    const before=bird.stopped;bird.held=pointer?.mode==='shot';P.step(bird,level,P.C.step,hit);acc-=P.C.step;
@@ -569,7 +586,7 @@ function frame(now){const dt=Math.max(0,Math.min((now-last)/1000,.045));last=now
 World.bindArt({off,rect,pixelEllipse,drawBird:(...a)=>{if(!drawingPlayer)a[9]='classic';drawBird(...a);},drawFish,label,reduced});
 resize();camera=targetCamera();renderStages();refreshHUD();requestAnimationFrame(frame);
 // Local development test hook. It is not a network service and contains no personal data.
-window.Suwari={version:'0.11.0',physics:P,levels,state:()=>({level:levelIndex,phase,shots,bird:{...bird},camera,overview,manual,vw,vh,scale,storageOK,intro:intro?{...intro}:null,panVelocity}),load,shot:takeShot,overview:setOverview,skipIntro:endIntro,closeHelp:()=>hide('helpScreen'),world:World,extras:Extra};
+window.Suwari={version:'0.12.0',physics:P,levels,state:()=>({level:levelIndex,phase,shots,bird:{...bird},camera,overview,manual,vw,vh,scale,storageOK,intro:intro?{...intro}:null,panVelocity,tutorial:{enabled:levelIndex===0,mode:intro?'goal':phase==='held'?'release':phase==='ready'?'swipe':'fish'}}),load,shot:takeShot,overview:setOverview,skipIntro:endIntro,closeHelp:()=>hide('helpScreen'),world:World,extras:Extra};
 Extra.boot({$,records,show,hide,load,levels,state:()=>window.Suwari.state(),art:{off,rect,pixelEllipse,drawBird,drawFish,label},world:World,reduced});
 })();
 </script></body></html>
