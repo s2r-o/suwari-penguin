@@ -15,12 +15,12 @@ footer{z-index:3;flex:none;padding:12px 16px calc(13px + env(safe-area-inset-bot
 #titleScreen{background:#e5f4ed;padding:20px;overflow-y:auto;backdrop-filter:none;align-items:center}#titleScreen:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.3;background-image:linear-gradient(#fff8 1px,transparent 1px),linear-gradient(90deg,#fff8 1px,transparent 1px);background-size:24px 24px}.title-wrap{width:100%;max-width:345px;position:relative;text-align:center;padding:20px 0}.title-kicker{font:10px var(--mono);letter-spacing:3.5px;color:#638c8b}.title-wrap h2{font-size:43px;letter-spacing:.04em;font-weight:900;margin:14px 0 0;line-height:1.3}.title-wrap h2 span{color:#6a9e9d}.title-caption{font-size:12px;letter-spacing:.05em;line-height:1.85;margin:12px 0 0;color:#567e81}#hero{width:100%;height:190px;image-rendering:pixelated;display:block;margin:5px auto 7px}.title-wrap .primary{max-width:284px;background:#f0957f;color:#173749;border-color:#ce7566;box-shadow:0 4px 0 #cb7969;font-size:15px}.title-wrap .secondary{max-width:284px;background:transparent;border:0;font-size:12px;box-shadow:none;min-height:42px}.version{font:9px var(--mono);letter-spacing:1.4px;color:#739694;margin-top:20px;line-height:1.7}
 #stageScreen .panel{max-width:400px;padding:25px 20px;max-height:calc(100dvh - 60px);overflow:auto;overscroll-behavior:contain;touch-action:pan-y}.stage-grid{touch-action:pan-y;display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:20px 0 10px}.stage-card{position:relative;min-height:78px;text-align:left;border:1px solid #bed7d1;border-radius:3px;padding:11px;background:#edf5ef}.stage-card b{font:21px var(--mono);color:var(--ink)}.stage-card span{display:block;font-size:9px;line-height:1.5;margin-top:4px;white-space:normal}.stage-card small{position:absolute;right:9px;top:12px;font:9px var(--mono);color:var(--muted)}.stage-card.cleared{border-color:#e1a88c;background:#faeee1}.stage-card.cleared:after{content:'✓';position:absolute;right:10px;bottom:9px;color:#cb8569;font-size:13px}#resultBird{width:115px;height:100px;image-rendering:pixelated;margin:0 auto;display:block}#resultScreen{align-items:flex-end;padding-bottom:calc(30px + env(safe-area-inset-bottom));background:#15364744}.result-chip{font:10px var(--mono);letter-spacing:2px;color:#b16f5c}#resultTitle{margin-top:9px}#resultScreen .panel p{margin-bottom:15px}.help-step{text-align:left;display:flex;align-items:flex-start;gap:12px;margin:17px 0}.help-step b{background:#ddece5;min-width:25px;height:25px;display:grid;place-items:center;font:12px var(--mono);border-radius:3px}.help-step p{margin:0;line-height:1.7;font-size:12px;color:var(--ink)}.help-step em{font-style:normal;color:var(--muted);font-size:10px}.help-gesture{display:block;margin:0 auto;width:120px;height:55px}
 @media(min-width:700px){#app{height:min(940px,100dvh);border-left:1px solid #2b5669;border-right:1px solid #2b5669}body{display:flex;align-items:center}.title-wrap h2{font-size:48px}}@media(max-height:700px){header{height:69px;padding-top:10px;padding-bottom:10px}footer{padding-top:9px;padding-bottom:calc(9px + env(safe-area-inset-bottom))}#microHint{margin-top:7px}.title-wrap h2{font-size:36px}#hero{height:150px}.title-wrap{padding:0}.title-caption{font-size:11px}.version{margin-top:11px}.panel{padding:21px}.help-step{margin:12px 0}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-</style></head>
+</style><link rel="stylesheet" href="extras.css?v=100"></head>
 <body><main id="app">
 <header><button id="homeButton" aria-label="ステージを選ぶ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/><rect x="3" y="15" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/></svg></button><div class="course-meta"><div class="eyebrow" id="courseNumber">COURSE 01 / 20</div><h1 id="courseName">はじめての、すーっ。</h1></div><div class="shots"><span>のこり</span><div id="shotValue">1 <small>打</small></div></div></header>
 <section id="playfield" aria-label="ペンギンのコース"><canvas id="game" aria-label="ペンギンを指で動かし、離すと滑ります。背景を払うと先を見渡せます。" tabindex="0"></canvas><div id="status">ペンギンを、スッと送り出そう。</div><button id="backToBird">↓ ペンギンへ戻る</button><div id="power" aria-hidden="true"><div id="powerFill"></div></div></section>
 <footer><div class="controls"><button id="retry" class="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 10a8 8 0 1 1 1 8M4 3v7h7"/></svg>もう一度</button><button id="overview" class="control"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2zM9 3v16M15 5v16"/></svg><span id="overviewLabel">コース全体</span></button><button id="sound" class="control square" aria-label="音をオンにする" aria-pressed="false"><svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 4 5 8H2v8h3l5 4zM16 9l6 6m0-6-6 6"/></svg></button><button id="help" class="control square" aria-label="遊び方">?</button></div><p id="microHint">ペンギンを指で動かして離す ／ 背景を払って先を見る</p></footer>
-<section id="titleScreen" class="overlay"><div class="title-wrap"><div class="title-kicker">A LITTLE PENGUIN. A LONG SLIDE.</div><h2>すわり<span>ぺん</span></h2><p class="title-caption">修行は、したくありません。<br>お魚だけは、いただきます。</p><canvas id="hero" width="345" height="190" aria-label="座ったまま氷の上を滑るペンギン"></canvas><button id="start" class="primary">ひと滑り、してみる</button><button id="selectFromTitle" class="secondary">コースを選ぶ →</button><div class="version">PLAYABLE PROTOTYPE 0.9<br>20 COURSES · 一投勝負 · 師匠の手づくり修行場 · 仮タイトル</div></div></section>
+<section id="titleScreen" class="overlay"><div class="title-wrap"><div class="title-kicker">A LITTLE PENGUIN. A LONG SLIDE.</div><h2>すわり<span>ぺん</span></h2><p class="title-caption">修行は、したくありません。<br>お魚だけは、いただきます。</p><canvas id="hero" width="345" height="190" aria-label="座ったまま氷の上を滑るペンギン"></canvas><button id="start" class="primary">ひと滑り、してみる</button><button id="selectFromTitle" class="secondary">コースを選ぶ →</button><div class="version">PLAYABLE PROTOTYPE 0.10<br>30 COURSES · 一投勝負 · 師匠の手づくり修行場 · 仮タイトル</div></div></section>
 <section id="stageScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="stageTitle"><div class="panel"><button class="close" data-close="stageScreen" aria-label="閉じる">×</button><div class="eyebrow">師匠の手づくり修行場</div><h2 id="stageTitle">今日は、どこまで。</h2><p style="margin-bottom:6px">新しい仕掛けは 09 から。どこからでも遊べます。</p><div class="stage-grid" id="stageGrid"></div><p style="font-size:10px;margin:12px 0 0">一投で魚に触れたらクリア。本人は、今日も座ったまま。</p></div></section>
 <section id="helpScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="panel"><button class="close" data-close="helpScreen" aria-label="閉じる">×</button><div class="eyebrow">HOW TO SLIDE</div><h2 id="helpTitle">指で動かして、離す。</h2><div class="help-step"><b>1</b><p>ペンギンに触れて、そのまま動かす。<br><em>指の動きにペンギンが追従します。</em></p></div><div class="help-step"><b>2</b><p>指を離すと、その勢いで滑る。<br><em>引く動作や、決められた構えは不要です。</em></p></div><div class="help-step"><b>3</b><p>止まるまで、なすがまま。<br><em>壁で反射。一投でお魚へ。途中で止まったら、やり直し。</em></p></div><p style="font-size:11px;margin-bottom:17px">背景を払うと大きくスクロール。<br>右のミニマップから好きな位置へ。<br>一度のスワイプで、魚へ触れればクリア。</p><button id="helpDone" class="primary">滑ってみよう</button></div></section>
 <section id="resultScreen" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="resultTitle"><div class="panel"><canvas id="resultBird" width="115" height="100"></canvas><div class="result-chip" id="resultChip">FISH GET!</div><h2 id="resultTitle">座ったまま、到着。</h2><p id="resultText">お魚、いただきます。</p><button id="next" class="primary">次のコースへ →</button><button id="resultRetry" class="secondary">もう一度、滑る</button></div></section>
@@ -158,18 +158,19 @@ const levels=[
 ];
 if(typeof module!=='undefined'&&module.exports)module.exports=levels;else root.PenguinLevels=levels;
 })(typeof window!=='undefined'?window:globalThis);
-</script><script src="world.js?v=090"></script><script>/* Suwari Penguin. Original pixel assets and UI. Single-file browser build. */
+</script><script src="world.js?v=100"></script><script src="courses.js?v=100"></script><script src="extras.js?v=100"></script><script>/* Suwari Penguin. Original pixel assets and UI. Single-file browser build. */
 (function(){
 'use strict';
 const P=window.PenguinPhysics, levels=window.PenguinLevels, $=id=>document.getElementById(id);
-const World=window.SuwariWorld;World.install(P);levels.push(...World.extraLevels);
+const World=window.SuwariWorld,Extra=window.SuwariExtras;World.install(P);levels.push(...World.extraLevels,...window.SuwariFinalCourses);
 // One release per attempt is a global rule, including future courses.
 const SHOT_LIMIT=1;levels.forEach(l=>{l.shots=SHOT_LIMIT;});
 const canvas=$('game'),ctx=canvas.getContext('2d',{alpha:false}), field=$('playfield');
 const clamp=P.clamp, TAU=Math.PI*2, reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let vw=360,vh=620,dpr=1,scale=1,camera=0,overview=false,manual=false,levelIndex=0,level=levels[0],bird=P.create(level),shots=0;
+let drawingPlayer=false;
 let phase='ready',pointer=null,particles=[],trail=[],time=0,last=performance.now(),acc=0,resultDelay=-1,toastTimer=0,hitCooldown=0;
-let paused=false,soundOn=false,audio=null,storageOK=true,records={};
+let paused=false,storageOK=true,records={};
 let intro=null,panVelocity=0,snowFx=0;const PAN_GAIN=2.5,PAN_DECAY=4.5;
 try{records=JSON.parse(localStorage.getItem('suwari-penguin-v1')||'{}');if(!records||typeof records!=='object')records={};}catch(_){storageOK=false;}
 const palette={ink:'#173749',sea:'#80b8ca',deep:'#69a4bc',ice:'#e0f2ef',ice2:'#d4eae8',snow:'#fbfcf4',edge:'#b6d9d9',salmon:'#ed967e',gold:'#efbd71'};
@@ -231,13 +232,13 @@ const fish=off(26,18);{
  rect(g,9,9,12,3,'#f9d8b1');rect(g,20,6,2,2,'#fff8e8');rect(g,21,7,2,2,'#173749');
  rect(g,13,7,2,2,'#efc5a8');rect(g,16,8,2,2,'#fff0cf');
 }
-function drawBird(g,x,y,a,size=1,blink=false,squash=0,shadow=true,flap=-1){
+function drawBird(g,x,y,a,size=1,blink=false,squash=0,shadow=true,flap=-1,skinId){
  const i=((Math.round(a/TAU*16)%16)+16)%16;
  g.save();g.translate(x,y);
  if(shadow){g.fillStyle='#3f809733';g.beginPath();g.ellipse(0,2,15*size,4.5*size,0,0,TAU);g.fill();}
  g.scale(size*(1+squash),size*(1-squash));g.imageSmoothingEnabled=false;
- if(flap>=0)g.drawImage(airSprites[i][flap%4],-24,-37);
- else g.drawImage(sprites[i][blink?1:0],-18,-32);g.restore();
+ if(flap>=0)g.drawImage(Extra.sprite(airSprites[i][flap%4],skinId),-24,-37);
+ else g.drawImage(Extra.sprite(sprites[i][blink?1:0],skinId),-18,-32);g.restore();
 }
 function drawFish(g,x,y,s=1){g.imageSmoothingEnabled=false;g.drawImage(fish,Math.round(x-13*s),Math.round(y-9*s),26*s,18*s);}
 function resize(){
@@ -259,7 +260,7 @@ function cancelPointer(){
  if(pointer?.mode==='shot'&&!bird.failed){bird.x=pointer.birdStart.x;bird.y=pointer.birdStart.y;bird.vx=bird.vy=0;bird.stopped=true;phase='ready';}
  pointer=null;bird.held=false;$('power').style.display='none';
 }
-function overlayOpen(){return !$('titleScreen').hidden||!$('stageScreen').hidden||!$('helpScreen').hidden;}
+function overlayOpen(){return Extra.modal()||!$('titleScreen').hidden||!$('stageScreen').hidden||!$('helpScreen').hidden;}
 function setStatus(text,duration=0){$('status').textContent=text;$('status').classList.remove('hidden');toastTimer=duration;}
 function show(id){cancelPointer();panVelocity=0;$(id).hidden=false;acc=0;}
 function hide(id){$(id).hidden=true;last=performance.now();acc=0;}
@@ -269,6 +270,7 @@ function refreshHUD(){
  $('courseName').textContent=level.name;$('shotValue').innerHTML=`${Math.max(0,SHOT_LIMIT-shots)} <small>打</small>`;
 }
 function load(i,withIntro=true){
+ Extra.loaded(i);
  intro=null;panVelocity=0;cancelPointer();levelIndex=clamp(i,0,levels.length-1);level=levels[levelIndex];bird=P.create(level);shots=0;phase='ready';manual=false;overview=false;pointer=null;trail=[];particles=[];resultDelay=-1;acc=0;
  $('power').style.display='none';$('overviewLabel').textContent='コース全体';$('backToBird').style.display='none';
  hide('titleScreen');hide('stageScreen');hide('resultScreen');hide('helpScreen');
@@ -276,14 +278,14 @@ function load(i,withIntro=true){
 }
 function renderStages(){
  $('stageGrid').replaceChildren();
- levels.forEach((l,i)=>{const b=document.createElement('button');b.className='stage-card'+(records[i]?' cleared':'');
+ levels.forEach((l,i)=>{const b=document.createElement('button');b.className='stage-card'+(records[i]?' cleared':'')+(i>=20?' challenge':'')+(i===29?' finale':'');
  const number=document.createElement('b');number.textContent=String(i+1).padStart(2,'0');
- const name=document.createElement('span');name.textContent=l.name;const label=document.createElement('small');label.textContent='一投勝負';if(i>=8)b.setAttribute('aria-label',`${i+1} ${l.name} ${l.lesson}`);
+ const name=document.createElement('span');name.textContent=l.name;const label=document.createElement('small');label.textContent=i===29?'最終試験':i>=25?'上級 · 一投':'一投勝負';if(i>=8)b.setAttribute('aria-label',`${i+1} ${l.name} ${l.lesson}`);
  b.append(number,name,label);b.addEventListener('click',()=>load(i));$('stageGrid').append(b);
- });
+ });Extra.stages();
 }
-function audioInit(){if(!audio){try{audio=new(window.AudioContext||window.webkitAudioContext)();}catch(_){soundOn=false;}}if(audio?.state==='suspended')audio.resume().catch(()=>{});}
-function tone(freq,dur=.12,type='sine',vol=.04,end){if(!soundOn)return;try{audioInit();if(!audio)return;const o=audio.createOscillator(),g=audio.createGain(),now=audio.currentTime;o.type=type;o.frequency.setValueAtTime(freq,now);if(end)o.frequency.exponentialRampToValueAtTime(end,now+dur);g.gain.setValueAtTime(vol,now);g.gain.exponentialRampToValueAtTime(.001,now+dur);o.connect(g);g.connect(audio.destination);o.start();o.stop(now+dur+.01);}catch(_){}}
+function audioInit(){Extra.unlock();}
+function tone(...args){Extra.tone(...args);}
 function hit(e){
  if(hitCooldown<=0&&e.impact>60){tone(190+e.impact*.08,.09,'triangle',.026,90);hitCooldown=.055;}
  if(e.impact<35)return;
@@ -293,7 +295,7 @@ function takeShot(vx,vy){
  if(intro||phase!=='ready'||!bird.stopped||shots>=SHOT_LIMIT)return false;
  if(!P.launch(bird,vx,vy))return false;
  shots++;phase='sliding';manual=false;overview=false;panVelocity=0;resultDelay=-1;trail=[];refreshHUD();
- $('overviewLabel').textContent='コース全体';$('backToBird').style.display='none';setStatus('あとは、なすがまま。',1.6);tone(450,.1,'sine',.04,740);return true;
+ $('overviewLabel').textContent='コース全体';$('backToBird').style.display='none';setStatus('あとは、なすがまま。',1.6);Extra.effect('slide');return true;
 }
 function finish(won){
  phase=won?'won':'lost';bird.held=false;resultDelay=won?.7:bird.failed==='gap'?(reduced?1.05:World.WATER_RESULT_DELAY):bird.failed?1.05:.45;
@@ -301,7 +303,7 @@ function finish(won){
   const old=records[levelIndex];records[levelIndex]=old?Math.min(old,shots):shots;
   try{localStorage.setItem('suwari-penguin-v1',JSON.stringify(records));}catch(_){storageOK=false;}
   for(let i=0;i<32;i++){const a=Math.random()*TAU,s=30+Math.random()*120;particles.push({x:bird.x,y:bird.y-10,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:.6+Math.random()*.8,max:1.4,size:2+Math.random()*3,color:['#ed967e','#efbd71','#f9fff0','#7aadae'][i%4]});}
-  tone(650,.18,'triangle',.06);setTimeout(()=>tone(850,.22,'triangle',.05),130);setTimeout(()=>tone(1080,.25,'triangle',.04),240);
+  Extra.cleared(levelIndex);
   setStatus('お魚、いただきます。');
  }else setStatus(bird.failed==='hook'?'釣れたのは、ペンギン。':bird.failed==='gap'?'……浮くのは、できます。':'今回は、ここまで。');
 }
@@ -311,7 +313,7 @@ function showResult(){
  $('resultText').textContent=won?'一投で到着。お魚、いただきます。':bird.failed==='hook'?'針が上がるのを待つか、横をすり抜けよう。':bird.failed==='gap'?'川の手前まで、勢いを残そう。雪と壁で減速します。':'角度か、勢いか。次は、少しだけ変えてみよう。';
  $('next').textContent=won?(levelIndex===levels.length-1?'コースを選ぶ →':'次のコースへ →'):'もう一度、滑る';
  $('resultRetry').textContent=won?'もう一度、滑る':'コースを見直す';
- drawResultBird(won);show('resultScreen');renderStages();
+ drawResultBird(won);show('resultScreen');renderStages();Extra.result(levelIndex,won);
 }
 function drawResultBird(won){const c=$('resultBird'),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);drawBird(g,58,80,0,2.1,!won);if(won)drawFish(g,79,54,1.2);}
 function metrics(){if(overview){const s=Math.min(vw/360,(vh-44)/level.height);return {s,ox:(vw-360*s)/2,oy:22};}return {s:scale,ox:0,oy:-camera*scale};}
@@ -336,7 +338,7 @@ canvas.addEventListener('pointerdown',e=>{
  if(pointer||overlayOpen()||!$('resultScreen').hidden||e.button>0)return;
  e.preventDefault();
  if(intro){endIntro();return;}
- if(soundOn)audioInit();
+ audioInit();
  panVelocity=0;
  const v=pointerPos(e),p=screenToWorld(v.x,v.y);
  let mode='pan';
@@ -415,7 +417,7 @@ $('help').onclick=()=>show('helpScreen');$('helpDone').onclick=()=>hide('helpScr
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>hide(b.dataset.close));
 $('next').onclick=()=>{if(phase==='won'){if(levelIndex<levels.length-1)load(levelIndex+1);else{hide('resultScreen');show('stageScreen');}}else load(levelIndex,false);};
 $('resultRetry').onclick=()=>{if(phase==='won')load(levelIndex,false);else{load(levelIndex,false);setOverview(true);}};
-$('sound').onclick=()=>{soundOn=!soundOn;if(soundOn)audioInit();$('sound').setAttribute('aria-pressed',String(soundOn));$('sound').setAttribute('aria-label',soundOn?'音をオフにする':'音をオンにする');$('soundIcon').innerHTML=soundOn?'<path d="M10 4 5 8H2v8h3l5 4zM15 7a7 7 0 0 1 0 10M19 3a12 12 0 0 1 0 18"/>':'<path d="M10 4 5 8H2v8h3l5 4zM16 9l6 6m0-6-6 6"/>';if(soundOn)tone(600,.12);};
+
 // Keyboard provides an alternative for desktop testing. Touch remains the intended input.
 let keyAngle=-Math.PI/2,keyPower=.68;
 window.addEventListener('keydown',e=>{
@@ -464,7 +466,7 @@ function drawWorld(g){
  for(const t of particles){g.globalAlpha=clamp(t.life/t.max,0,1);rect(g,t.x,t.y,t.size,t.size,t.color);}g.globalAlpha=1;
  let px=bird.x,py=bird.y;
  const blink=Math.floor(time*4)%19===0;
- World.paintBird(g,bird,phase,bird.clock||0);
+ drawingPlayer=true;try{World.paintBird(g,bird,phase,bird.clock||0);}finally{drawingPlayer=false;}
  // Readable touch target marker in the first course only.
  if(phase==='ready'&&shots===0&&levelIndex===0&&!pointer&&!overview){
   g.globalAlpha=.55+.25*Math.sin(time*3);label(g,'ここを、スッ。',bird.x,bird.y+52,10,'#638f92');g.globalAlpha=1;
@@ -510,8 +512,8 @@ function renderHero(){
 function processWorldEvents(){
  const events=bird.events?.splice(0)||[];
  for(const e of events){
-  if(e.type==='jump'){tone(440,.15,'sine',.025,780);setStatus('座ったまま、空へ。',1.2);}
-  if(e.type==='land'){tone(150,.08,'triangle',.02,95);for(let i=0;i<10;i++)particles.push({x:bird.x,y:bird.y,vx:(Math.random()-.5)*90,vy:(Math.random()-.5)*35,life:.32,max:.32,size:2,color:'#fffcef'});}
+  if(e.type==='jump'){Extra.effect('jump');setStatus('座ったまま、空へ。',1.2);}
+  if(e.type==='land'){Extra.effect('land');for(let i=0;i<10;i++)particles.push({x:bird.x,y:bird.y,vx:(Math.random()-.5)*90,vy:(Math.random()-.5)*35,life:.32,max:.32,size:2,color:'#fffcef'});}
   if(e.type==='bump'){
    if(pointer?.mode==='shot'){pointer=null;bird.held=false;shots++;refreshHUD();}
    if(phase==='ready'||phase==='held'){phase='sliding';manual=false;}
@@ -520,7 +522,7 @@ function processWorldEvents(){
  }
  if(bird.failed&&phase!=='lost'){
   if(pointer?.mode==='shot'){if(pointer.moved>2)shots++;pointer=null;refreshHUD();}
-  bird.held=false;finish(false);tone(180,.24,'sine',.025,100);
+  bird.held=false;finish(false);Extra.effect(bird.failed==='gap'?'water':bird.failed==='hook'?'hook':'fail');
  }
 }
 function update(dt){
@@ -563,10 +565,11 @@ function update(dt){
  if(resultDelay>=0){resultDelay-=dt;if(resultDelay<0)showResult();}
 }
 
-function frame(now){const dt=Math.min((now-last)/1000,.045);last=now;update(dt);render();renderHero();requestAnimationFrame(frame);}
-World.bindArt({off,rect,pixelEllipse,drawBird,drawFish,label,reduced});
+function frame(now){const dt=Math.max(0,Math.min((now-last)/1000,.045));last=now;Extra.frame(dt);update(dt);const snowy=(level.snow||[]).some(z=>bird.x>z.x&&bird.x<z.x+z.w&&bird.y>z.y&&bird.y<z.y+z.h);Extra.surface(!overlayOpen()&&phase==='sliding'?Math.hypot(bird.vx,bird.vy):0,snowy,bird.z>0);render();renderHero();requestAnimationFrame(frame);}
+World.bindArt({off,rect,pixelEllipse,drawBird:(...a)=>{if(!drawingPlayer)a[9]='classic';drawBird(...a);},drawFish,label,reduced});
 resize();camera=targetCamera();renderStages();refreshHUD();requestAnimationFrame(frame);
 // Local development test hook. It is not a network service and contains no personal data.
-window.Suwari={version:'0.9.0',physics:P,levels,state:()=>({level:levelIndex,phase,shots,bird:{...bird},camera,overview,manual,vw,vh,scale,storageOK,intro:intro?{...intro}:null,panVelocity}),load,shot:takeShot,overview:setOverview,skipIntro:endIntro,closeHelp:()=>hide('helpScreen'),world:World};
+window.Suwari={version:'0.10.0',physics:P,levels,state:()=>({level:levelIndex,phase,shots,bird:{...bird},camera,overview,manual,vw,vh,scale,storageOK,intro:intro?{...intro}:null,panVelocity}),load,shot:takeShot,overview:setOverview,skipIntro:endIntro,closeHelp:()=>hide('helpScreen'),world:World,extras:Extra};
+Extra.boot({$,records,show,hide,load,levels,state:()=>window.Suwari.state(),art:{off,rect,pixelEllipse,drawBird,drawFish,label},world:World,reduced});
 })();
 </script></body></html>
