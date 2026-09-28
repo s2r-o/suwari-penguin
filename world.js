@@ -1,4 +1,4 @@
-/* Suwari Penguin 0.5: the master's handmade training grounds.
+/* Suwari Penguin 0.6: the master's handmade training grounds.
  * No network, packages, analytics or random gameplay. Existing input/ice physics stay in index.html.
  */
 (function(root){
@@ -7,12 +7,19 @@ const TAU=Math.PI*2, GRAVITY=640, RAMP_ANGLE=26*Math.PI/180;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const inside=(p,r)=>p.x>=r.x&&p.x<=r.x+r.w&&p.y>=r.y&&p.y<=r.y+r.h;
 const extraLevels=[
- {name:'師匠、橋は？',hint:'台に乗れば、座ったままジャンプ。',height:1500,shots:1,start:{x:180,y:1380},goal:{x:180,y:145},walls:[],snow:[],ramps:[{x:122,y:970,w:116,h:66}],gaps:[{x:26,y:690,w:308,h:160}],lesson:'ジャンプ台'},
+ // Broad take-off banks and open landings: approach speed, not a narrow aim test.
+ {name:'師匠、橋は？',hint:'幅の広い台へ、勢いを残して。斜めでも飛べます。',height:1520,shots:2,start:{x:110,y:1400},goal:{x:252,y:135},walls:[],snow:[],ramps:[{x:26,y:930,w:308,h:70}],gaps:[{x:26,y:760,w:308,h:145}],lesson:'勢いで川を越える'},
  {name:'先輩、お先に。',hint:'先輩が通り過ぎてから、スッ。',height:1550,shots:1,start:{x:180,y:1430},goal:{x:180,y:140},walls:[],snow:[],lanes:[{y:980,speed:370,period:3.8,offset:1.1,dir:1},{y:565,speed:420,period:4.6,offset:2.7,dir:-1}],lesson:'腹すべりの先輩'},
  {name:'おさかな、じゃない。',hint:'針が上がっている間に、通り抜けよう。',height:1530,shots:1,start:{x:105,y:1410},goal:{x:252,y:145},walls:[],snow:[],hooks:[{x:148,y:955,sway:76,period:4.8,offset:.3,side:-1},{x:218,y:535,sway:65,period:5.2,offset:2.4,side:1}],lesson:'釣り人'},
- {name:'空中でも、座ったまま。',hint:'飛び越えた先にも、先輩がいる。',height:2090,shots:2,start:{x:180,y:1970},goal:{x:180,y:140},walls:[],snow:[],ramps:[{x:126,y:1510,w:108,h:66}],gaps:[{x:26,y:1240,w:308,h:150}],lanes:[{y:930,speed:400,period:4.1,offset:2,dir:1},{y:535,speed:380,period:4.6,offset:.5,dir:-1}],lesson:'ジャンプとタイミング'},
+ {name:'雪より、まわり道。',hint:'雪を抜けるか、横から勢いを残すか。',height:2040,shots:2,start:{x:105,y:1920},goal:{x:252,y:140},walls:[],snow:[{x:132,y:1420,w:96,h:170,factor:3.7}],ramps:[{x:26,y:1200,w:308,h:70}],gaps:[{x:26,y:1030,w:308,h:135}],lanes:[{y:740,speed:390,period:4.4,offset:2,dir:1}],lesson:'川までのルート選び'},
  {name:'雪で、ひとやすみ。',hint:'雪でひと休み。針の動きを見て、もう一打。',height:2110,shots:2,start:{x:95,y:1990},goal:{x:264,y:145},walls:[{x:26,y:1400,w:173,h:42},{x:215,y:510,w:119,h:42}],snow:[{x:207,y:1050,w:111,h:150,factor:3.7},{x:38,y:600,w:88,h:135,factor:3.7}],hooks:[{x:190,y:815,sway:86,period:5.2,offset:1.4,side:-1}],lesson:'止まる場所も作戦'},
- {name:'師匠の力作。',hint:'師匠は頑張った。あとは、お魚まで。',height:2460,shots:2,start:{x:180,y:2340},goal:{x:180,y:140},walls:[{x:26,y:520,w:116,h:42}],snow:[{x:242,y:1080,w:80,h:135,factor:3.7}],ramps:[{x:124,y:1860,w:112,h:66}],gaps:[{x:26,y:1570,w:308,h:180}],lanes:[{y:1210,speed:395,period:4.2,offset:2.2,dir:1},{y:915,speed:365,period:4.8,offset:.6,dir:-1}],hooks:[{x:187,y:660,sway:82,period:5.4,offset:1.7,side:1}],lesson:'ごほうび総仕上げ'}
+ {name:'師匠の力作。',hint:'川を越えたら、着地した場所からもう一打。',height:2230,shots:2,start:{x:258,y:2110},goal:{x:112,y:140},walls:[{x:26,y:740,w:115,h:42}],snow:[{x:118,y:1760,w:100,h:145,factor:3.7}],ramps:[{x:26,y:1500,w:308,h:70}],gaps:[{x:26,y:1320,w:308,h:150}],lanes:[{y:1020,speed:375,period:4.5,offset:2.2,dir:1}],hooks:[{x:215,y:490,sway:62,period:5.4,offset:1.7,side:1}],lesson:'着地後にも余裕を'},
+ {name:'近道は、ふかふか。',hint:'雪を横切る近道と、氷をすべるまわり道。',height:1770,shots:2,start:{x:90,y:1650},goal:{x:265,y:140},walls:[{x:26,y:700,w:155,h:42}],snow:[{x:128,y:970,w:115,h:205,factor:3.7},{x:245,y:380,w: 70,h:120,factor:3.7}],lesson:'距離と減速の選択'},
+ {name:'先輩、今はだめ。',hint:'雪で止まる場所を決めて、先輩を待とう。',height:1870,shots:2,start:{x:260,y:1750},goal:{x:95,y:140},walls:[{x:225,y:510,w:109,h:42}],snow:[{x:207,y:1040,w:115,h:130,factor:3.7}],lanes:[{y:1330,speed:350,period:4.6,offset:.8,dir:-1},{y:780,speed:410,period:4.3,offset:2.3,dir:1}],lesson:'止まる場所と出発の時刻'},
+ {name:'左右、どちらから？',hint:'壁を避けて、川まで勢いを残そう。',height:1900,shots:2,start:{x:180,y:1780},goal:{x:260,y:145},walls:[{x:145,y:1500,w:70,h:55}],snow:[{x:40,y:1350,w:94,h:115,factor:3.7}],ramps:[{x:26,y:1250,w:308,h:70}],gaps:[{x:26,y:1060,w:308,h:160}],lesson:'左右で違う助走'},
+ {name:'釣られない、昼ごはん。',hint:'左右に余白。針を待つか、よけて進むか。',height:1940,shots:2,start:{x:100,y:1820},goal:{x:263,y:145},walls:[{x:148,y:1110,w:64,h:42}],snow:[{x:240,y:630,w:82,h:140,factor:3.7}],hooks:[{x:155,y:1430,sway:62,period:5.2,offset:.6,side:-1},{x:210,y:835,sway:70,period:5.8,offset:2.8,side:1},{x:125,y:380,sway:46,period:5.4,offset:1.4,side:-1}],lesson:'安全な場所で待つ'},
+ {name:'ぶつかるほど、のんびり。',hint:'反射は便利。でも、ぶつかるたびに勢いが減る。',height:2240,shots:2,start:{x:255,y:2120},goal:{x:108,y:140},walls:[{x:198,y:1580,w:136,h:42},{x:26,y:1110,w:140,h:42},{x:210,y:565,w:124,h:42}],snow:[{x:40,y:1640,w:85,h:125,factor:3.7}],lanes:[{y:825,speed:380,period:4.8,offset:1.9,dir:-1}],lesson:'反射の回数を考える'},
+ {name:'今日も、魚だけ。',hint:'雪、川、先輩、釣り人。頑張るのは、指のほう。',height:2370,shots:2,start:{x:180,y:2250},goal:{x:248,y:145},walls:[{x:26,y:450,w:90,h:42}],snow:[{x:131,y:1810,w:98,h:145,factor:3.7},{x:240,y:820,w:82,h:105,factor:3.7}],ramps:[{x:26,y:1500,w:308,h:70}],gaps:[{x:26,y:1305,w:308,h:160}],lanes:[{y:1050,speed:390,period:4.6,offset:1.6,dir:1}],hooks:[{x:157,y:635,sway:72,period:5.5,offset:2.1,side:-1}],lesson:'師匠の追加修行・総仕上げ'}
 ];
 function laneAt(l,t){
  const u=t+(l.offset||0),cycle=Math.floor(u/l.period),q=((u%l.period)+l.period)%l.period;
@@ -81,8 +88,13 @@ function install(P){
      baseStep(p,l,h,onHit);
      if(!p.won&&!p.stopped&&p.rampCooldown<=0){
       (l.ramps||[]).some((r,i)=>{
-       if(oy>r.y+6&&p.y<=r.y+6&&p.x>r.x+10&&p.x<r.x+r.w-10&&p.vy<-55){
-        p.vz=-p.vy*Math.sin(RAMP_ANGLE);p.vy*=Math.cos(RAMP_ANGLE);p.z=1;p.jumps++;p.rampCooldown=.6;p.lastRamp=i;event(p,'jump');return true;
+       // The whole broad wooden lip works; no centre target, aim snapping or speed boost.
+       const lip=r.y+6,dy=oy-p.y;
+       const atLip=dy>0?ox+(p.x-ox)*(oy-lip)/dy:p.x;
+       if(oy>lip&&p.y<=lip&&atLip>=r.x+4&&atLip<=r.x+r.w-4&&p.vy<-40){
+        const entrySpeed=Math.hypot(p.vx,p.vy),entryAngle=Math.atan2(p.vx,-p.vy);
+        p.vz=-p.vy*Math.sin(RAMP_ANGLE);p.vy*=Math.cos(RAMP_ANGLE);p.z=1;p.jumps++;p.rampCooldown=.6;p.lastRamp=i;
+        event(p,'jump',{entrySpeed,entryAngle});return true;
        }return false;
       });
      }
@@ -163,7 +175,7 @@ function drawRamp(g,r){
  rect(g,r.x+5,r.y+4,r.w-10,r.h-8,'#d6b98a');
  for(let y=r.y+6;y<r.y+r.h-5;y+=10){rect(g,r.x+6,y,r.w-12,5,'#eed4a4');rect(g,r.x+6,y+7,r.w-12,1,'#b79269');}
  rect(g,r.x,r.y,6,r.h,'#a77853');rect(g,r.x+r.w-6,r.y,6,r.h,'#a77853');rect(g,r.x-3,r.y-4,r.w+6,7,'#f6e9c7');rect(g,r.x+1,r.y-3,r.w-2,2,'#fff8dd');
- const x=r.x+r.w/2,y=r.y+r.h/2;rect(g,x-3,y-4,6,18,'#b88665');rect(g,x-8,y-1,16,4,'#b88665');rect(g,x-6,y-5,12,4,'#b88665');rect(g,x-3,y-8,6,3,'#b88665');
+ for(const f of [.18,.5,.82]){const x=r.x+r.w*f,y=r.y+r.h/2;rect(g,x-3,y-4,6,18,'#b88665');rect(g,x-8,y-1,16,4,'#b88665');rect(g,x-6,y-5,12,4,'#b88665');rect(g,x-3,y-8,6,3,'#b88665');}
  for(const xx of [r.x-7,r.x+r.w+5]){rect(g,xx,r.y-26,2,27,'#927351');rect(g,xx+2,r.y-25,13,7,'#d88970');rect(g,xx+2,r.y-18,9,4,'#ebb198');}
 }
 function drawGoal(g,l,p,t){
